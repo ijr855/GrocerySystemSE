@@ -8,10 +8,10 @@
     <constant name="struts.devMode" value="true" />
 
     <package name="basicstruts2" extends="struts-default">
+    	<!-- Index Actions -->
         <action name="index">
             <result>/index.jsp</result>
         </action>
-        
         <action name="selectlogin" class="grocerysys.action.IndexAction" method="loadLogin">
         	<result name="success">/views/login.jsp</result>
         </action>
@@ -19,6 +19,12 @@
         	<result name="success">/views/createaccount.jsp</result>
         </action>
         
+        <!-- Login Actions -->
+        <action name="attemptLogin" class="grocerysys.action.LoginAction" method="validateLogin">
+        	<result name="error">/index.jsp</result>
+        </action>
+        
+        <!-- Create Account Actions -->
         
     </package>
 

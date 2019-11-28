@@ -9,5 +9,10 @@
 </head>
 <body>
 	<h1>I am empty right now :)</h1>
+	<s:form action="attemptLogin">
+		<s:textfield name="username" label="Username"/>
+		<s:password name="password" label="Password"/>
+		<s:submit value="Submit"/>
+	</s:form>
 </body>
 </html>
