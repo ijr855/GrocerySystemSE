@@ -20,11 +20,18 @@
         </action>
         
         <!-- Login Actions -->
-        <action name="attemptLogin" class="grocerysys.action.LoginAction" method="validateLogin">
+        <action name="attemptLogin" class="grocerysys.action.LoginAction" method="checkLogin">
+        	<result name="input">/views/login.jsp</result>
         	<result name="error">/index.jsp</result>
+        	<result name="success">/views/homepage.jsp</result>
         </action>
         
         <!-- Create Account Actions -->
+        
+        <!-- Home page actions -->
+        <action name="logOut" class="grocerysys.action.HomeAction" method="logOut">
+        	<result name="success">/index.jsp</result>
+        </action>
         
     </package>
 
