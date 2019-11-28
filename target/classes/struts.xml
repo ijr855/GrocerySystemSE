@@ -11,6 +11,15 @@
         <action name="index">
             <result>/index.jsp</result>
         </action>
+        
+        <action name="selectlogin" class="grocerysys.action.IndexAction" method="loadLogin">
+        	<result name="success">/views/login.jsp</result>
+        </action>
+        <action name="selectcreate" class="grocerysys.action.IndexAction" method="loadCreate">
+        	<result name="success">/views/createaccount.jsp</result>
+        </action>
+        
+        
     </package>
 
 </struts>
