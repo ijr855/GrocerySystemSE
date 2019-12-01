@@ -8,7 +8,7 @@
 <title>Login Page</title>
 </head>
 <body>
-	<h1>I am empty right now :)</h1>
+	<h1>Please Enter Your Username and Password</h1>
 	<s:form action="attemptLogin">
 		<s:textfield name="username" label="Username"/>
 		<s:password name="password" label="Password"/>
