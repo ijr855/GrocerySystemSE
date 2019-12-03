@@ -27,6 +27,9 @@
         </action>
         
         <!-- Create Account Actions -->
+        <action name="getGrocery" class="grocerysys.action.GroceryAction" method="GetGrocery">
+        	<result name="success">/views/groceryitems.jsp</result>
+        </action>
         
         <!-- Home page actions -->
         <action name="logOut" class="grocerysys.action.HomeAction" method="logOut">

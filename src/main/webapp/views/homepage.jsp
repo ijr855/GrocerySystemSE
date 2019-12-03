@@ -10,6 +10,6 @@
 <body>
 	<h1>Soon you will be able to purchase items here!</h1>
 	<p><a href="<s:url action='logOut'/>">Go back</a></p>
-	<p><a href="<s:url action='selectcreate'/>">Grocery List</a>
+	<p><a href="<s:url action='getGrocery'/>">Grocery List</a>
 </body>
 </html>

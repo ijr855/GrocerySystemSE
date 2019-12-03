@@ -1,9 +1,10 @@
 package grocerysys.action;
 import java.sql.*;
+import com.opensymphony.xwork2.ActionSupport;
 
-public class GroceryAction {
+public class GroceryAction extends ActionSupport {
 	
-	public GroceryAction() {
+	public String GetGrocery() {
 	System.out.println("MySQL Connect Example.");
 	Connection conn = null;String url = "jdbc:mysql://localhost:3306/";
 	//user/customer is the connection to the overall database
@@ -33,7 +34,7 @@ public class GroceryAction {
 			System.out.println(f1 + " " + f2 + " " + f3+ " " + f4+ " " + f5); 
 		} //end while
 		conn.close();
-		System.out.println("Disconnected from database");
+//		System.out.println("Disconnected from database");
 	} //end try
 	catch(ClassNotFoundException e) 
 	{
@@ -47,6 +48,7 @@ public class GroceryAction {
 	{
 		e.printStackTrace();
 	}
+	return SUCCESS;
 	}
 
 }
