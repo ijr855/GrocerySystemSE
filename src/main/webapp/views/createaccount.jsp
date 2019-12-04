@@ -9,36 +9,16 @@
 </head>
 <body>
 	<h1>Create Account</h1>
-	<form action="process.php" method="POST">
-		<div>
-			<label>First Name</label> <input type="text" name="firstName"
-				placeholder="Enter first name">
-		</div>
-		<br>
-		<div>
-			<label>Last Name</label> <input type="text" name="lastName">
-		</div>
-		<br>
-		<div>
-			<label>Username</label> <input type="text" name="username">
-		</div>
-		<br>
-		<div>
-			<label>Email</label> <input type="email" name="email">
-		</div>
-		<br>
-		<div>
-			<label>Gender</label> <select name="gender">
-				<option value="male">Male</option>
-				<option value="female">Female</option>
-				<option value="other">Other</option> </select>
-		</div>
-		<br>
-		<div>
-			<label>Birthday</label> <input type="date" name="birthday">
-		</div>
-		<br> <input type="submit" name="submit" value="Submit">
-	</form>
+	<s:form action="createAccount">
+			<s:textfield type="text" name="firstName" label="First Name"/>
+			<s:textfield type="text" name="lastName" label="Last Name"/>
+			<s:textfield type="text" name="addr" label="Address"/>
+			<s:textfield type="text" name="payment" label="Credit Card Number"/>
+			<s:textfield type="text" name="crn" label="3 Digit Security code"/>
+			<s:textfield type="text" name="uname" label="Username"/>
+			<s:textfield type="password" name="pword" label="Password"/>
+			<s:submit value="Create Account"/>
+	</s:form>
 
 </body>
 </html>

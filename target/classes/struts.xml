@@ -27,6 +27,12 @@
         </action>
         
         <!-- Create Account Actions -->
+        <action name="createAccount" class="grocerysys.action.CreateAccountAction" method="createAccount">
+        	<result name="success">/views/homepage.jsp</result>
+        	<result name="error">/index.jsp</result>
+        </action>
+        
+        <!-- Grocery list action -->
         <action name="getGrocery" class="grocerysys.action.GroceryAction" method="GetGrocery">
         	<result name="success">/views/groceryitems.jsp</result>
         </action>
