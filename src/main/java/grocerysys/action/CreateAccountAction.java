@@ -25,11 +25,13 @@ public class CreateAccountAction extends ActionSupport{
 			Class.forName(driver).newInstance();
 			conn = DriverManager.getConnection(url+dbName,userName,password);
 			//in the query, its Select * FROM (table you wish to read from)
-			String query = "INSERT INTO customer (Name, Address, Payment Info, CRN, UserName, Password) VALUES (";
-			String fullName = firstName + lastName;
-			query = query + fullName + ", " + addr + ", " + payment + ", " + crn + ", " + uname + ", " + pword + ")";
+			String query = "INSERT INTO customer (`Name`, `Address`, `Payment Info`, `CRN`, `UserName`, `Password`) VALUES (";
+			String fullName = "'" + firstName + " " +  lastName + "'";
+			query = query + fullName + ", '" + addr + "', '" + payment + "', " + crn + ", '" + uname + "', '" + pword + "')";
 			System.out.println("Connected to the database");
 			Statement stmt = conn.createStatement();
+			System.out.println(query);
+			System.out.println(addr);
 			stmt.executeUpdate(query);
 			conn.close();
 		} //end try
@@ -50,5 +52,75 @@ public class CreateAccountAction extends ActionSupport{
 		}
 		return SUCCESS;
 		}
+
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+
+	public String getLastName() {
+		return lastName;
+	}
+
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+
+	public String getAddr() {
+		return addr;
+	}
+
+
+	public void setAddr(String addr) {
+		this.addr = addr;
+	}
+
+
+	public String getPayment() {
+		return payment;
+	}
+
+
+	public void setPayment(String payment) {
+		this.payment = payment;
+	}
+
+
+	public String getCrn() {
+		return crn;
+	}
+
+
+	public void setCrn(String crn) {
+		this.crn = crn;
+	}
+
+
+	public String getUname() {
+		return uname;
+	}
+
+
+	public void setUname(String uname) {
+		this.uname = uname;
+	}
+
+
+	public String getPword() {
+		return pword;
+	}
+
+
+	public void setPword(String pword) {
+		this.pword = pword;
+	}
 	
 }
