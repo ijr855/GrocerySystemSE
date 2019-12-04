@@ -4,6 +4,12 @@ import com.opensymphony.xwork2.ActionSupport;
 
 public class GroceryAction extends ActionSupport {
 	
+	String Name;
+	int ID;
+	String cate;
+	int quan;
+	double price;
+	
 	public String GetGrocery() {
 	System.out.println("MySQL Connect Example.");
 	Connection conn = null;String url = "jdbc:mysql://localhost:3306/";
@@ -12,7 +18,7 @@ public class GroceryAction extends ActionSupport {
 	String driver = "com.mysql.jdbc.Driver";
 	String userName = "root";
 	String password = "";
-	String f1,f2,f3,f4,f5;
+	
 	try {
 		Class.forName(driver).newInstance();
 		conn = DriverManager.getConnection(url+dbName,userName,password);
@@ -25,13 +31,13 @@ public class GroceryAction extends ActionSupport {
 		//value per collumn in the table, can change based on how many columns there are
 		while (rs.next())
 		{
-			f1 = rs.getString(1);
-			f2 = rs.getString(2);
-			f3 = rs.getString(3);
-			f4 = rs.getString(4);
-			f5 = rs.getString(5);
+			Name = rs.getString(1);
+			ID = rs.getInt(2);
+			cate = rs.getString(3);
+			quan = rs.getInt(4);
+			price = rs.getDouble(5);
 			
-			System.out.println(f1 + " " + f2 + " " + f3+ " " + f4+ " " + f5); 
+			System.out.println(Name + " " + ID + " " + cate + " " + quan + " " + price); 
 		} //end while
 		conn.close();
 //		System.out.println("Disconnected from database");
@@ -50,5 +56,46 @@ public class GroceryAction extends ActionSupport {
 	}
 	return SUCCESS;
 	}
+
+	public String getName() {
+		return Name;
+	}
+
+	public void setName(String name) {
+		Name = name;
+	}
+
+	public int getID() {
+		return ID;
+	}
+
+	public void setID(int iD) {
+		ID = iD;
+	}
+
+	public String getCate() {
+		return cate;
+	}
+
+	public void setCate(String cate) {
+		this.cate = cate;
+	}
+
+	public int getQuan() {
+		return quan;
+	}
+
+	public void setQuan(int quan) {
+		this.quan = quan;
+	}
+
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
+	}
+	
 
 }
