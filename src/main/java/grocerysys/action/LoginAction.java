@@ -1,23 +1,23 @@
 package grocerysys.action;
 import java.util.*;
-import com.opensymphony.xwork2.interceptor.ParameterNameAware;
+//import com.opensymphony.xwork2.interceptor.ParameterNameAware;
 import org.apache.struts2.interceptor.SessionAware;
 
 import com.opensymphony.xwork2.ActionSupport;
 import java.sql.*;
 
-public class LoginAction extends ActionSupport{
+public class LoginAction extends ActionSupport implements SessionAware{
 
 	
 	private String username;
 	private String password;
 
 
-//	private Map<String, Object> userSession ;
-//
-//	public void setSession(Map<String, Object> session) {
-//	   userSession = session ;
-//	}
+	private Map<String, Object> userSession ;
+
+	public void setSession(Map<String, Object> session) {
+	   userSession = session ;
+	}
 	public String checkLogin() 
 	{
 		//check if username and password match
@@ -34,7 +34,7 @@ public class LoginAction extends ActionSupport{
 			conn =DriverManager.getConnection(url+dbName,userName,pass);
 			Statement stmt =conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
 			String sql;
-			sql = "SELECT username,password from customer";
+			sql = "SELECT username,password,id from customer";
 			ResultSet rs = stmt.executeQuery(sql);
 			
 			System.out.println(username);
@@ -47,9 +47,12 @@ public class LoginAction extends ActionSupport{
 				System.out.println();
 				System.out.println(uname);
 				System.out.println(mypass);
+				System.out.println(rs.getString(3));
 				
 				if(username.equals(uname) && password.equals(mypass))
 				{
+					System.out.println("Success");
+					userSession.put("currentUserID", rs.getString(3));
 					System.out.println("Success");
 					return SUCCESS;
 				}
@@ -59,11 +62,7 @@ public class LoginAction extends ActionSupport{
 		{
 			e.printStackTrace();
 		}
-		
-		//if (username.equals("Username") && password.equals("Password")) 
-			//return SUCCESS; 
-		//else return ERROR;
-		
+	
 		return ERROR;
 	}
 	
@@ -76,19 +75,6 @@ public class LoginAction extends ActionSupport{
 			addFieldError("password", "A password is required");
 		}
 	}
-	
-//	private void increaseHelloCount() {
-//	    Integer helloCount = (Integer) userSession.get("helloCount");
-//
-//	    
-//	    if (helloCount == null ) {
-//	        helloCount = 1;
-//	    } else {
-//	        helloCount++;
-//	    }
-//
-//	    userSession.put("helloCount", helloCount);
-//	}
 	
 	public String getUsername() {
 		return username;
@@ -105,10 +91,8 @@ public class LoginAction extends ActionSupport{
 	public void setPassword(String password) {
 		this.password = password;
 	}
-//	public Map<String, Object> getUserSession() {
-//		return userSession;
-//	}
-//	public void setUserSession(Map<String, Object> userSession) {
-//		this.userSession = userSession;
-//	}
+	public Map<String, Object> getUserSession() {
+		return userSession;
+	}
+
 }
