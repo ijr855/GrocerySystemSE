@@ -6,11 +6,12 @@ public class Item {
 	int ID;
 	String category;
 	double price;
+	int qt;
 	
 	
-	public Item(String sName, int iID, String cat, double prc){
+	public Item(String sName, String cat, double prc, int quant){
 		this.name = sName;
-		this.ID = iID;
+		this.qt = quant;
 		this.category = cat;
 		this.price = prc;
 	}
@@ -52,6 +53,14 @@ public class Item {
 
 	public void setPrice(double price) {
 		this.price = price;
+	}
+
+	public int getQt() {
+		return qt;
+	}
+
+	public void setQt(int qt) {
+		this.qt = qt;
 	}
 
 	

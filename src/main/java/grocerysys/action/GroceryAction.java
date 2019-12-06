@@ -1,6 +1,9 @@
 package grocerysys.action;
 import java.sql.*;
+import java.util.*;
 import com.opensymphony.xwork2.ActionSupport;
+import grocerysys.model.Item;
+
 
 public class GroceryAction extends ActionSupport {
 	
@@ -9,6 +12,9 @@ public class GroceryAction extends ActionSupport {
 	String cate;
 	int quan;
 	double price;
+	private List products;
+	
+	
 	
 	public String GetGrocery() {
 	System.out.println("MySQL Connect Example.");
@@ -28,6 +34,8 @@ public class GroceryAction extends ActionSupport {
 		Statement stmt = conn.createStatement();
 		ResultSet rs= stmt.executeQuery(query);
 		
+		products = new ArrayList();
+		
 		//value per collumn in the table, can change based on how many columns there are
 		while (rs.next())
 		{
@@ -36,6 +44,8 @@ public class GroceryAction extends ActionSupport {
 			cate = rs.getString(3);
 			quan = rs.getInt(4);
 			price = rs.getDouble(5);
+			
+			products.add(new Item(Name,cate, price,quan));
 			
 			System.out.println(Name + " " + ID + " " + cate + " " + quan + " " + price); 
 		} //end while
@@ -95,6 +105,14 @@ public class GroceryAction extends ActionSupport {
 
 	public void setPrice(double price) {
 		this.price = price;
+	}
+
+	public List getProducts() {
+		return products;
+	}
+
+	public void setProducts(List products) {
+		this.products = products;
 	}
 	
 
