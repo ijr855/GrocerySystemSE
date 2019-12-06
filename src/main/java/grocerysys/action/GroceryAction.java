@@ -12,13 +12,50 @@ public class GroceryAction extends ActionSupport {
 	String cate;
 	int quan;
 	double price;
-	private List products;
+	private List<Item> products;
+	private String selectedItem, selectedCategory, selectedPrice, selectedQuantity, selectedID;
 	
-	
+	public String addToCart() {
+		Connection conn = null;
+		String url = "jdbc:mysql://localhost:3306/";
+		//user/customer is the connection to the overall database
+		String dbName = "user/customer";
+		String driver = "com.mysql.jdbc.Driver";
+		String userName = "root";
+		String password = "";
+		
+		try {
+			Class.forName(driver).newInstance();
+			conn = DriverManager.getConnection(url+dbName,userName,password);
+			String query = "INSERT INTO cart (`userID`, `itemID`, `itemQuantity`, `price`) VALUES (";
+			query = query + "'1', '1111', '1', '1.00')";
+			System.out.println("Connected to the database");
+			Statement stmt = conn.createStatement();
+			stmt.executeUpdate(query);
+			conn.close();
+		} 
+		catch(ClassNotFoundException e) 
+		{
+			e.printStackTrace();
+			return ERROR;
+		}
+		catch(SQLException e) 
+		{
+			e.printStackTrace();
+			return ERROR;
+		}
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+			return ERROR;
+		}
+		return SUCCESS;
+	}
 	
 	public String GetGrocery() {
 	System.out.println("MySQL Connect Example.");
-	Connection conn = null;String url = "jdbc:mysql://localhost:3306/";
+	Connection conn = null;
+	String url = "jdbc:mysql://localhost:3306/";
 	//user/customer is the connection to the overall database
 	String dbName = "user/customer";
 	String driver = "com.mysql.jdbc.Driver";
@@ -45,9 +82,9 @@ public class GroceryAction extends ActionSupport {
 			quan = rs.getInt(4);
 			price = rs.getDouble(5);
 			
-			products.add(new Item(Name,cate, price,quan));
+			products.add(new Item(Name,cate, price,quan, ID));
 			
-			System.out.println(Name + " " + ID + " " + cate + " " + quan + " " + price); 
+			//System.out.println(Name + " " + ID + " " + cate + " " + quan + " " + price); 
 		} //end while
 		conn.close();
 //		System.out.println("Disconnected from database");
@@ -113,6 +150,38 @@ public class GroceryAction extends ActionSupport {
 
 	public void setProducts(List products) {
 		this.products = products;
+	}
+
+	public String getSelectedItem() {
+		return selectedItem;
+	}
+
+	public void setSelectedItem(String selectedItem) {
+		this.selectedItem = selectedItem;
+	}
+
+	public String getSelectedCategory() {
+		return selectedCategory;
+	}
+
+	public void setSelectedCategory(String selectedCategory) {
+		this.selectedCategory = selectedCategory;
+	}
+
+	public String getSelectedPrice() {
+		return selectedPrice;
+	}
+
+	public void setSelectedPrice(String selectedPrice) {
+		this.selectedPrice = selectedPrice;
+	}
+
+	public String getSelectedQuantity() {
+		return selectedQuantity;
+	}
+
+	public void setSelectedQuantity(String selectedQuantity) {
+		this.selectedQuantity = selectedQuantity;
 	}
 	
 

@@ -37,6 +37,13 @@
         	<result name="success">/views/groceryitems.jsp</result>
         </action>
         
+        <action name="addToCart" class="grocerysys.action.GroceryAction" method="addToCart">
+        	<result name="success" type="redirectAction">
+        		<param name="actionName">getGrocery</param>
+        	</result>
+        	<result name="error">/views/homepage.jsp</result>
+        </action>
+        
         <!-- Home page actions -->
         <action name="logOut" class="grocerysys.action.HomeAction" method="logOut">
         	<result name="success">/index.jsp</result>

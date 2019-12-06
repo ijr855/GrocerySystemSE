@@ -14,7 +14,7 @@
 			<s:textfield type="text" name="lastName" label="Last Name"/>
 			<s:textfield type="text" name="addr" label="Address"/>
 			<s:textfield type="text" name="payment" label="Credit Card Number"/>
-			<s:textfield type="text" name="crn" label="3 Digit Security code"/>
+			<s:textfield type="text" name="crn" label="CVV"/>
 			<s:textfield type="text" name="uname" label="Username"/>
 			<s:textfield type="password" name="pword" label="Password"/>
 			<s:submit value="Create Account"/>

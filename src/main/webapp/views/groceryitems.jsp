@@ -10,10 +10,16 @@
 <body>
 <p>The items are displayed here</p>
 <p> Name    Category    Price    Quantity </p>
+
+
 <s:iterator value="products" status="status">
-	<s:property value="Name"/>     <s:property value="cate"/>      <s:property value="price"/>    <s:property value="quan"/>
+	<form action="addToCart">
+	<s:hidden name="products" value="%{#products}"/> <s:hidden name="selectedID" value="%{ID}"/>
+	<s:hidden name="selectedItem" value="%{Name}"/> <s:property value="Name"/>    <s:hidden name="selectedCategory" value="%{cate}"/> <s:property value="cate"/>   <s:hidden name="selectedPrice" value="%{price}"/>   <s:property value="price"/>  <s:hidden name="selectedQuantity" value="1"/>  <s:property value="quan"/>    <s:submit value="Add to Cart"/>
 	<br>
-	
+	</form>
 </s:iterator>
+
+
 </body>
 </html>

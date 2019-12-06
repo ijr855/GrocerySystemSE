@@ -9,11 +9,12 @@ public class Item {
 	int qt;
 	
 	
-	public Item(String sName, String cat, double prc, int quant){
+	public Item(String sName, String cat, double prc, int quant, int id){
 		this.name = sName;
 		this.qt = quant;
 		this.category = cat;
 		this.price = prc;
+		this.ID = id;
 	}
 
 	public String getName() {
