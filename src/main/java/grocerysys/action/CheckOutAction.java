@@ -41,6 +41,9 @@ public class CheckOutAction extends ActionSupport {
 	public String checkOut() {
 		return SUCCESS;
 	}
+	public String pay() {
+		return SUCCESS;
+	}
 
 	public String[] getDeliveryTimes() {
 		return deliveryTimes;

@@ -18,5 +18,6 @@
 		<s:submit value="Confirm order"/>
 	</s:form>
 	<p><s:property value="#selectedDeliveryTime"/></p>
+
 </body>
 </html>
