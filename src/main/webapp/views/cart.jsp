@@ -10,5 +10,12 @@
 <body>
 <p><a href="<s:url action='logOut'/>">Logout</a></p>
 <p><a href="<s:url action='getGrocery'/>">Back to Shopping</a>
+
+<s:iterator value="cart" status="status">
+	<form action="addToCart">
+	<s:property value="ID"/> <s:property value="name"/>  <s:property value="category"/> <s:property value="price"/> <s:property value="qt"/>
+	<br>
+	</form>
+</s:iterator>
 </body>
 </html>

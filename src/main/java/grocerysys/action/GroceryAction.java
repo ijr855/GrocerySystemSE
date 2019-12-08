@@ -88,7 +88,6 @@ public class GroceryAction extends ActionSupport implements SessionAware{
 			
 			products.add(new Item(Name,cate, price,quan, ID));
 			
-			//System.out.println(Name + " " + ID + " " + cate + " " + quan + " " + price); 
 		} //end while
 		conn.close();
 //		System.out.println("Disconnected from database");

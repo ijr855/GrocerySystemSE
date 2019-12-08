@@ -16,6 +16,10 @@ public class Item {
 		this.price = prc;
 		this.ID = id;
 	}
+	
+	public String toString() {
+		return this.name + " " + this.qt + " " + this.category + " " + this.price + " " + this.ID;
+	}
 
 	public String getName() {
 		return name;
@@ -64,6 +68,5 @@ public class Item {
 		this.qt = qt;
 	}
 
-	
 	
 }
