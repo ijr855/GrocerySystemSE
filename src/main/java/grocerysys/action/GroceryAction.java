@@ -20,22 +20,33 @@ public class GroceryAction extends ActionSupport implements SessionAware{
 	public String addToCart() {
 		Connection conn = null;
 		String url = "jdbc:mysql://localhost:3306/";
-		//user/customer is the connection to the overall database
 		String dbName = "user/customer";
 		String driver = "com.mysql.jdbc.Driver";
 		String userName = "root";
 		String password = "";
 		String userID = (String) userSession.get("currentUserID");
 		System.out.println(userID);
-		
+		String query = null;
+				
 		try {
 			Class.forName(driver).newInstance();
 			conn = DriverManager.getConnection(url+dbName,userName,password);
-			String query = "INSERT INTO cart (`userID`, `itemID`, `itemQuantity`, `price`) VALUES (";
-			query = query + "'" + userID + "', '" + selectedID + "', '1', '" + selectedPrice +"')";
-			System.out.println("Connected to the database");
-			Statement stmt = conn.createStatement();
-			stmt.executeUpdate(query);
+			query = "Select * FROM cart WHERE `userId` = '" + userID + "' AND `itemID` = '" + selectedID + "'";
+			Statement cartStatement = conn.createStatement();
+			ResultSet cartRS= cartStatement.executeQuery(query);
+			
+			if (!cartRS.next()) { // If the selected item is NOT present in the cart
+				query = "INSERT INTO cart (`userID`, `itemID`, `itemQuantity`, `price`) VALUES ("; // Add 1 to the cart
+				query = query + "'" + userID + "', '" + selectedID + "', '1', '" + selectedPrice +"')";
+				Statement stmt = conn.createStatement();
+				stmt.executeUpdate(query);
+			} else { // If it is present, update the count
+				int newQuant = cartRS.getInt("itemQuantity");
+				newQuant = newQuant + 1;
+				query = "UPDATE cart SET `itemQuantity` = " + newQuant + " WHERE `userId` = '" + userID + "' AND `itemID` = '" + selectedID + "'";
+				Statement stmt = conn.createStatement();
+				stmt.executeUpdate(query);
+			}
 			conn.close();
 		} 
 		catch(ClassNotFoundException e) 
