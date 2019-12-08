@@ -69,4 +69,20 @@ public class CartAction extends ActionSupport implements SessionAware {
 	public void setSession(Map<String, Object> session) {
 		userSession = session ;
 	}
+
+	public Map<String, Object> getUserSession() {
+		return userSession;
+	}
+
+	public void setUserSession(Map<String, Object> userSession) {
+		this.userSession = userSession;
+	}
+
+	public List<Item> getCart() {
+		return cart;
+	}
+
+	public void setCart(List<Item> cart) {
+		this.cart = cart;
+	}
 }
