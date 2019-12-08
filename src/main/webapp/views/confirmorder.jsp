@@ -8,23 +8,15 @@
 <title>Confirm Order</title>
 </head>
 <body>
+	<p><a href="<s:url action='logOut'/>">Logout</a></p>
+	<p><a href="<s:url action='viewCart'/>">Back to Cart</a></p>
+	<p><a href="<s:url action='getGrocery'/>">Back to Shopping</a>
 	<h1>Review Your Order</h1>
-	<p>Pick the time of the delivery</p>
-	<select name="time">
-		<option value="10AM">7AM-8AM</option>
-		<option value="10AM">8AM-9AM</option>
-		<option value="10AM">9AM-10AM</option>
-  		<option value="10AM">10AM-11AM</option>
-  		<option value="11AM">11AM-12PM</option>
-  		<option value="12PM">12PM-1PM</option>
-  		<option value="1PM">1PM-2PM</option>
-  		<option value="1PM">2PM-3PM</option>
-  		<option value="1PM">3PM-4PM</option>
-  		<option value="1PM">4PM-5PM</option>
-  		<option value="1PM">5PM-6PM</option>
-  		<option value="1PM">6PM-7PM</option>
-  		<option value="1PM">7PM-8PM</option>
-  		<option value="1PM">8PM-9PM</option>
-	</select>
+	<s:form>
+		<s:select label="Pick the time of the delivery" list="deliveryTimes" name="selectedDeliveryTime"/>
+		<s:radio label="Delivery Options" list="deliveryOptions" name="selectedDelivery"/>
+		<s:submit value="Confirm order"/>
+	</s:form>
+	<s:property value="#selectedDeliveryTime"/>
 </body>
 </html>
