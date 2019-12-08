@@ -53,6 +53,10 @@
         	<result name="success">/views/confirmorder.jsp</result>
         </action>
         
+        <action name="confirmOrder" class="grocerysys.action.CheckOutAction" method="confirmOrder">
+        	<result name="success">/views/receipt.jsp</result>
+        </action>
+        
         <!-- Home page actions -->
         <action name="logOut" class="grocerysys.action.HomeAction" method="logOut">
         	<result name="success">/index.jsp</result>

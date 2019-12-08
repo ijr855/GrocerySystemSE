@@ -22,6 +22,22 @@ public class CheckOutAction extends ActionSupport {
 	
 	private String selectedDelivery;
 	
+	public String confirmOrder() {
+		System.out.println(selectedDelivery + " " + selectedTime);
+		// Get user items currently in cart, as all should be being purchased. Put in list.
+		
+		// Get most recent user order number. Increment by one.
+		
+		// Push all order info to the order table. Go through user item list gen'd earlier and insert one by one.
+		
+		// DROP all items for user from cart table
+		
+		// UPDATE item counts for item table by subtracting qt from each item in list from item table qt.
+		
+		// Compute total of order, assign to field. Display alongside iterated list on receipt page.
+		return SUCCESS;
+	}
+	
 	public String checkOut() {
 		return SUCCESS;
 	}

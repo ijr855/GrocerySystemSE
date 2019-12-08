@@ -12,11 +12,11 @@
 	<p><a href="<s:url action='viewCart'/>">Back to Cart</a></p>
 	<p><a href="<s:url action='getGrocery'/>">Back to Shopping</a>
 	<h1>Review Your Order</h1>
-	<s:form>
-		<s:select label="Pick the time of the delivery" list="deliveryTimes" name="selectedDeliveryTime"/>
+	<s:form action="confirmOrder">
+		<s:select label="Pick the time of the delivery" list="deliveryTimes" name="selectedTime"/>
 		<s:radio label="Delivery Options" list="deliveryOptions" name="selectedDelivery"/>
 		<s:submit value="Confirm order"/>
 	</s:form>
-	<s:property value="#selectedDeliveryTime"/>
+	<p><s:property value="#selectedDeliveryTime"/></p>
 </body>
 </html>
