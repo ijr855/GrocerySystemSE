@@ -28,7 +28,7 @@ public class GroceryAction extends ActionSupport {
 			Class.forName(driver).newInstance();
 			conn = DriverManager.getConnection(url+dbName,userName,password);
 			String query = "INSERT INTO cart (`userID`, `itemID`, `itemQuantity`, `price`) VALUES (";
-			query = query + "'1', '1111', '1', '1.00')";
+			query = query + "'1', '" + selectedID + "', '1', '" + selectedPrice +"')";
 			System.out.println("Connected to the database");
 			Statement stmt = conn.createStatement();
 			stmt.executeUpdate(query);
@@ -154,6 +154,14 @@ public class GroceryAction extends ActionSupport {
 
 	public String getSelectedItem() {
 		return selectedItem;
+	}
+	
+	public void setSelectedID(String selectedID) {
+		this.selectedID = selectedID;
+	}
+
+	public String getSelectedID() {
+		return selectedID;
 	}
 
 	public void setSelectedItem(String selectedItem) {
