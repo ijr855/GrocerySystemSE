@@ -10,6 +10,7 @@
 <body>
 <p><a href="<s:url action='logOut'/>">Logout</a></p>
 <p><a href="<s:url action='getGrocery'/>">Back to Shopping</a>
+<p><a href="<s:url action='checkOut'/>">Proceed to checkout</a></p>
 
 <s:iterator value="cart" status="status">
 	<form action="addToCart">
