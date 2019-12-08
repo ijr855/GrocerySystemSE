@@ -1,8 +1,10 @@
 package grocerysys.action;
 import java.sql.*;
+import java.util.Map;
+import org.apache.struts2.interceptor.SessionAware;
 import com.opensymphony.xwork2.ActionSupport;
 
-public class CreateAccountAction extends ActionSupport{
+public class CreateAccountAction extends ActionSupport implements SessionAware{
 	
 	String firstName;
 	String lastName;
@@ -12,6 +14,7 @@ public class CreateAccountAction extends ActionSupport{
 	String uname;
 	String pword;
 	
+	private Map<String, Object> userSession;
 
 	public String createAccount() {
 		System.out.println("MySQL Connect Example.");
@@ -24,7 +27,7 @@ public class CreateAccountAction extends ActionSupport{
 		try {
 			Class.forName(driver).newInstance();
 			conn = DriverManager.getConnection(url+dbName,userName,password);
-			//in the query, its Select * FROM (table you wish to read from)
+			// Add user to user table
 			String query = "INSERT INTO customer (`Name`, `Address`, `Payment Info`, `CRN`, `UserName`, `Password`) VALUES (";
 			String fullName = "'" + firstName + " " +  lastName + "'";
 			query = query + fullName + ", '" + addr + "', '" + payment + "', " + crn + ", '" + uname + "', '" + pword + "')";
@@ -33,6 +36,15 @@ public class CreateAccountAction extends ActionSupport{
 			System.out.println(query);
 			System.out.println(addr);
 			stmt.executeUpdate(query);
+			
+			// Get newest user ID
+			query = "SELECT `ID` FROM `customer` WHERE `UserName` = '" + uname + "'";
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next())
+			{
+				String uid = rs.getString("ID");
+				userSession.put("currentUserID", uid);
+			}
 			conn.close();
 		} //end try
 		catch(ClassNotFoundException e) 
@@ -53,7 +65,10 @@ public class CreateAccountAction extends ActionSupport{
 		return SUCCESS;
 		}
 
-
+	public void setSession(Map<String, Object> session) {
+		   userSession = session ;
+	}
+	
 	public String getFirstName() {
 		return firstName;
 	}

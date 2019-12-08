@@ -44,11 +44,7 @@ public class LoginAction extends ActionSupport implements SessionAware{
 			{
 				uname = rs.getString("username");
 				mypass = rs.getString("password");
-				System.out.println();
-				System.out.println(uname);
-				System.out.println(mypass);
-				System.out.println(rs.getString(3));
-				
+
 				if(username.equals(uname) && password.equals(mypass))
 				{
 					System.out.println("Success");
