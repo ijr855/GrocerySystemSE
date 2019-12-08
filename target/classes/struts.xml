@@ -48,8 +48,14 @@
         	<result name="success">/views/cart.jsp</result>
         </action>
         
+        <!-- Check Out Action -->
         <action name="checkOut" class="grocerysys.action.CheckOutAction" method="checkOut">
         	<result name="success">/views/confirmorder.jsp</result>
+        </action>
+        
+        <!-- Pay Action -->
+        <action name="pay" class="grocerysys.action.CheckOutAction" method="pay">
+        	<result name="success">/views/complete.jsp</result>
         </action>
         
         <!-- Home page actions -->

@@ -9,22 +9,33 @@
 </head>
 <body>
 	<h1>Review Your Order</h1>
-	<p>Pick the time of the delivery</p>
-	<select name="time">
-		<option value="10AM">7AM-8AM</option>
-		<option value="10AM">8AM-9AM</option>
-		<option value="10AM">9AM-10AM</option>
-  		<option value="10AM">10AM-11AM</option>
-  		<option value="11AM">11AM-12PM</option>
-  		<option value="12PM">12PM-1PM</option>
-  		<option value="1PM">1PM-2PM</option>
-  		<option value="1PM">2PM-3PM</option>
-  		<option value="1PM">3PM-4PM</option>
-  		<option value="1PM">4PM-5PM</option>
-  		<option value="1PM">5PM-6PM</option>
-  		<option value="1PM">6PM-7PM</option>
-  		<option value="1PM">7PM-8PM</option>
-  		<option value="1PM">8PM-9PM</option>
-	</select>
+	<s:form action="pay">
+		<p>Pick the time of the delivery</p>
+		<select name="time">
+  			<option value="10AM">10AM-11AM</option>
+  			<option value="11AM">11AM-12PM</option>
+  			<option value="12PM">12PM-1PM</option>
+  			<option value="1PM">1PM-2PM</option>
+  			<option value="2PM">2PM-3PM</option>
+  			<option value="3PM">3PM-4PM</option>
+  			<option value="4PM">4PM-5PM</option>
+  			<option value="5PM">5PM-6PM</option>
+  			<option value="6PM">6PM-7PM</option>
+  			<option value="7PM">7PM-8PM</option>
+  			<option value="8PM">8PM-9PM</option>
+		</select>
+		<p>Delivery Options</p>
+		<select name="delivery">
+			<option value="standard">Standard Delivery - 2 days - FREE shipping</option>
+			<option value="express">Express Delivery - 1 day - S25.00 - Shipping</option>		
+		</select>
+		<p>Payment Methods</p>
+		<select name="payment">
+			<option value="card">Master Card</option>
+			<option value="cash">Cash</option>
+		</select>
+		<p> </p>
+		<s:submit value="Place This Order"/>
+	</s:form>
 </body>
 </html>
