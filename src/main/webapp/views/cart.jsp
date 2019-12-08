@@ -8,5 +8,7 @@
 <title>Cart</title>
 </head>
 <body>
+<p><a href="<s:url action='logOut'/>">Logout</a></p>
+<p><a href="<s:url action='getGrocery'/>">Back to Shopping</a>
 </body>
 </html>

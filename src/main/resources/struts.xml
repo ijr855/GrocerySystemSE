@@ -44,6 +44,10 @@
         	<result name="error">/views/homepage.jsp</result>
         </action>
         
+        <action name="viewCart" class="grocerysys.action.CartAction" method="viewCart">
+        	<result name="success">/views/cart.jsp</result>
+        </action>
+        
         <!-- Home page actions -->
         <action name="logOut" class="grocerysys.action.HomeAction" method="logOut">
         	<result name="success">/index.jsp</result>
