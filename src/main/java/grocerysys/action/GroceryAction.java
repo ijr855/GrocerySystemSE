@@ -3,9 +3,10 @@ import java.sql.*;
 import java.util.*;
 import com.opensymphony.xwork2.ActionSupport;
 import grocerysys.model.Item;
+import org.apache.struts2.interceptor.SessionAware;
 
 
-public class GroceryAction extends ActionSupport {
+public class GroceryAction extends ActionSupport implements SessionAware{
 	
 	String Name;
 	int ID;
@@ -14,6 +15,7 @@ public class GroceryAction extends ActionSupport {
 	double price;
 	private List<Item> products;
 	private String selectedItem, selectedCategory, selectedPrice, selectedQuantity, selectedID;
+	private Map<String, Object> userSession;
 	
 	public String addToCart() {
 		Connection conn = null;
@@ -23,12 +25,14 @@ public class GroceryAction extends ActionSupport {
 		String driver = "com.mysql.jdbc.Driver";
 		String userName = "root";
 		String password = "";
+		String userID = (String) userSession.get("currentUserID");
+		System.out.println(userID);
 		
 		try {
 			Class.forName(driver).newInstance();
 			conn = DriverManager.getConnection(url+dbName,userName,password);
 			String query = "INSERT INTO cart (`userID`, `itemID`, `itemQuantity`, `price`) VALUES (";
-			query = query + "'1', '" + selectedID + "', '1', '" + selectedPrice +"')";
+			query = query + "'" + userID + "', '" + selectedID + "', '1', '" + selectedPrice +"')";
 			System.out.println("Connected to the database");
 			Statement stmt = conn.createStatement();
 			stmt.executeUpdate(query);
@@ -192,5 +196,8 @@ public class GroceryAction extends ActionSupport {
 		this.selectedQuantity = selectedQuantity;
 	}
 	
+	public void setSession(Map<String, Object> session) {
+		userSession = session ;
+	}
 
 }
