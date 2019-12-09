@@ -36,8 +36,8 @@ public class Order {
 			Class.forName(driver).newInstance();
 			conn = DriverManager.getConnection(url+dbName,userName,password);
 			for (Item curItem : this.cart) {
-				String query = "INSERT INTO orders (`custID`, `orderID`, `item_ID`, `Quantity`, `Price`, `deliveryTime`, `deliveryDate`) VALUES ('";
-				query = query + this.customerID + "', '" + this.orderID + "', '" + curItem.getID() + "', '" + curItem.getQt() + "', '" + curItem.getPrice() + "', '" + this.deliveryTime + "', '" + this.deliveryDate + "')";
+				String query = "INSERT INTO orders (`custID`, `orderID`, `item_ID`, `Quantity`, `Price`, `deliveryTime`, `deliveryDate`, `Status`) VALUES ('";
+				query = query + this.customerID + "', '" + this.orderID + "', '" + curItem.getID() + "', '" + curItem.getQt() + "', '" + curItem.getPrice() + "', '" + this.deliveryTime + "', '" + this.deliveryDate + "', 'Processing')";
 				Statement stmt = conn.createStatement();
 				stmt.executeUpdate(query);
 			}
