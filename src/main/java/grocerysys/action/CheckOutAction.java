@@ -1,10 +1,26 @@
 package grocerysys.action;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.math.*;
+
 import org.apache.struts2.interceptor.SessionAware;
 
 import com.opensymphony.xwork2.ActionSupport;
 
-public class CheckOutAction extends ActionSupport {
+import grocerysys.model.Item;
+import grocerysys.model.Order;
+
+public class CheckOutAction extends ActionSupport implements SessionAware {
 	
 	private String[] deliveryTimes = {"10AM-11AM", 
 									  "11AM-12PM",
@@ -22,19 +38,95 @@ public class CheckOutAction extends ActionSupport {
 	
 	private String selectedDelivery;
 	
+	private Map<String, Object> userSession;
+	private List<Item> cart;
+	private double total;
+	
 	public String confirmOrder() {
 		System.out.println(selectedDelivery + " " + selectedTime);
 		// Get user items currently in cart, as all should be being purchased. Put in list.
+		Connection conn = null; // Establish db connection
+		String url = "jdbc:mysql://localhost:3306/";
+		String dbName = "user/customer";
+		String driver = "com.mysql.jdbc.Driver";
+		String userName = "root";
+		String password = "";
 		
-		// Get most recent user order number. Increment by one.
+		String userID = (String) userSession.get("currentUserID"); // Get user ID from session
+		String name, category; // Used later to build user cart from DB queries
+		int itemID, quantity, newOrderID = -1, newQt, days = 0;
+		double price;
+		total = 0;
 		
-		// Push all order info to the order table. Go through user item list gen'd earlier and insert one by one.
-		
-		// DROP all items for user from cart table
-		
-		// UPDATE item counts for item table by subtracting qt from each item in list from item table qt.
-		
-		// Compute total of order, assign to field. Display alongside iterated list on receipt page.
+		try {
+			// Populate user cart
+			Class.forName(driver).newInstance(); 
+			conn = DriverManager.getConnection(url+dbName,userName,password);
+			String query = "Select * FROM cart WHERE `userId` = '" + userID + "'"; // First pull all rows from cart table belonging to current user.
+			Statement cartStatement = conn.createStatement();
+			ResultSet cartRS= cartStatement.executeQuery(query);
+			
+			// Get most recent user order number. Increment by one.
+			Statement orderIDStatement = conn.createStatement();
+			query = "Select Max(OrderID) FROM orders";
+			ResultSet orderIDRS = orderIDStatement.executeQuery(query);
+			orderIDRS.next();
+			newOrderID = orderIDRS.getInt(1);
+			newOrderID = newOrderID + 1;
+			
+			cart = new ArrayList();
+			
+			while (cartRS.next())
+			{
+				quantity = cartRS.getInt("itemQuantity");
+				itemID = cartRS.getInt("itemid");
+				query = "Select * FROM items WHERE `item_ID` = '" + itemID + "'"; // Pull item details from Item table
+				System.out.println(query);
+				Statement itemStatement = conn.createStatement();
+				ResultSet itemRS = itemStatement.executeQuery(query);
+				itemRS.next();
+				newQt = itemRS.getInt("Quantity");
+				newQt = newQt - quantity;
+				if (newQt < 0) {
+					quantity = quantity + newQt;
+					newQt = 0;
+				}
+				// UPDATE item counts for item table by subtracting qt from each item in list from item table qt
+				price = itemRS.getDouble("Price");
+				name = itemRS.getString("Name");
+				category = itemRS.getString("Category");
+				total = total + (price * quantity);
+				Item toAdd = new Item(name, category, price, quantity, itemID); // Create item details using info from query
+				System.out.println(toAdd.toString());
+				cart.add(toAdd);
+				itemStatement.close();
+			} //end while
+			for (int i = 0; i < deliveryOptions.length; i++) {
+				if (selectedDelivery.equals(deliveryOptions[i])) days = i;
+			}
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			String date = sdf.format(new Date()); 
+			Calendar c = Calendar.getInstance();
+			c.setTime(sdf.parse(date));
+			c.add(Calendar.DATE, days);
+			date = sdf.format(c.getTime());
+			Order newOrder = new Order(Integer.toString(newOrderID), userID, cart, selectedTime, date);
+			newOrder.pushOrder();
+			newOrder.cleanCart();
+			conn.close();
+		} //end try
+		catch(ClassNotFoundException e) 
+		{
+			e.printStackTrace();
+		}
+		catch(SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+		}						
 		return SUCCESS;
 	}
 	
@@ -75,6 +167,30 @@ public class CheckOutAction extends ActionSupport {
 
 	public void setSelectedDelivery(String selectedDelivery) {
 		this.selectedDelivery = selectedDelivery;
+	}
+	
+	public void setSession(Map<String, Object> session) {
+		userSession = session ;
+	}
+
+	public Map<String, Object> getUserSession() {
+		return userSession;
+	}
+
+	public List<Item> getCart() {
+		return cart;
+	}
+
+	public void setCart(List<Item> cart) {
+		this.cart = cart;
+	}
+
+	public double getTotal() {
+		return total;
+	}
+
+	public void setTotal(double total) {
+		this.total = total;
 	}
 
 }

@@ -9,7 +9,7 @@
 </head>
 <body>
 <p><a href="<s:url action='logOut'/>">Logout</a></p>
-<p><a href="<s:url action='getGrocery'/>">Back to Shopping</a>
+<p><a href="<s:url action='getGrocery'/>">Back to Shopping</a></p>
 <p>Track your orders</p>
 
 </body>
