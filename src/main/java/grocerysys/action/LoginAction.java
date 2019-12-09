@@ -11,7 +11,7 @@ public class LoginAction extends ActionSupport implements SessionAware{
 	
 	private String username;
 	private String password;
-
+	private boolean loggedin = false; //this is for testing purposes in junit
 
 	private Map<String, Object> userSession ;
 
@@ -50,6 +50,7 @@ public class LoginAction extends ActionSupport implements SessionAware{
 					System.out.println("Success");
 					userSession.put("currentUserID", rs.getString(3));
 					System.out.println("Success");
+					loggedin = true;
 					return SUCCESS;
 				}
 			}
@@ -89,6 +90,12 @@ public class LoginAction extends ActionSupport implements SessionAware{
 	}
 	public Map<String, Object> getUserSession() {
 		return userSession;
+	}
+	public boolean isLoggedin() {
+		return loggedin;
+	}
+	public void setLoggedin(boolean loggedin) {
+		this.loggedin = loggedin;
 	}
 
 }
