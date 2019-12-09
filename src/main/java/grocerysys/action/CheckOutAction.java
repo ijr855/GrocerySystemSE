@@ -40,7 +40,7 @@ public class CheckOutAction extends ActionSupport implements SessionAware {
 	
 	private Map<String, Object> userSession;
 	private List<Item> cart;
-	private double total;
+	private double total, ship;
 	
 	public String confirmOrder() {
 		System.out.println(selectedDelivery + " " + selectedTime);
@@ -102,7 +102,22 @@ public class CheckOutAction extends ActionSupport implements SessionAware {
 				itemStatement.close();
 			} //end while
 			for (int i = 0; i < deliveryOptions.length; i++) {
-				if (selectedDelivery.equals(deliveryOptions[i])) days = i;
+				if (selectedDelivery.equals(deliveryOptions[i])) {
+					days = i;
+					switch(i) {
+					case 0:
+						total = total + 3.99;
+						ship = 3.99;
+						break;
+					case 1:
+						total = total + 1.99;
+						ship = 1.99;
+						break;
+					default:
+						break;
+					}
+				}
+				
 			}
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			String date = sdf.format(new Date()); 
@@ -191,6 +206,14 @@ public class CheckOutAction extends ActionSupport implements SessionAware {
 
 	public void setTotal(double total) {
 		this.total = total;
+	}
+
+	public double getShip() {
+		return ship;
+	}
+
+	public void setShip(double ship) {
+		this.ship = ship;
 	}
 
 }
