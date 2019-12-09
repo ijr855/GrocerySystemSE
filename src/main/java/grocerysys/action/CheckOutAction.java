@@ -43,7 +43,6 @@ public class CheckOutAction extends ActionSupport implements SessionAware {
 	private double total, ship;
 	
 	public String confirmOrder() {
-		System.out.println(selectedDelivery + " " + selectedTime);
 		// Get user items currently in cart, as all should be being purchased. Put in list.
 		Connection conn = null; // Establish db connection
 		String url = "jdbc:mysql://localhost:3306/";
@@ -126,7 +125,7 @@ public class CheckOutAction extends ActionSupport implements SessionAware {
 			c.add(Calendar.DATE, days);
 			date = sdf.format(c.getTime());
 			Order newOrder = new Order(Integer.toString(newOrderID), userID, cart, selectedTime, date);
-			newOrder.pushOrder();
+			newOrder.pushOrder(total, selectedDelivery);
 			newOrder.cleanCart();
 			conn.close();
 		} //end try

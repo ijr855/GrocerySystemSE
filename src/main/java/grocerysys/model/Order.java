@@ -24,7 +24,7 @@ public class Order {
 		this.deliveryDate = deliveryDate;
 	}
 	
-	public void pushOrder() {
+	public void pushOrder(double total, String selectedDelivery) {
 		Connection conn = null; // Establish db connection
 		String url = "jdbc:mysql://localhost:3306/";
 		String dbName = "user/customer";
@@ -35,12 +35,20 @@ public class Order {
 		try {
 			Class.forName(driver).newInstance();
 			conn = DriverManager.getConnection(url+dbName,userName,password);
+			Statement stmt;
+			String query = null;
 			for (Item curItem : this.cart) {
-				String query = "INSERT INTO orders (`custID`, `orderID`, `item_ID`, `Quantity`, `Price`, `deliveryTime`, `deliveryDate`, `Status`) VALUES ('";
+				query = "INSERT INTO orders (`custID`, `orderID`, `item_ID`, `Quantity`, `Price`, `deliveryTime`, `deliveryDate`, `Status`) VALUES ('";
 				query = query + this.customerID + "', '" + this.orderID + "', '" + curItem.getID() + "', '" + curItem.getQt() + "', '" + curItem.getPrice() + "', '" + this.deliveryTime + "', '" + this.deliveryDate + "', 'Processing')";
-				Statement stmt = conn.createStatement();
+				stmt = conn.createStatement();
 				stmt.executeUpdate(query);
 			}
+			query = "INSERT INTO ordertracking (`total`, `customerID`, `orderID`, `status`, `deliverSpeed`, `deliveryTime`, `deliveryDate`) VALUES ('";
+			query = query + total + "', '" + this.customerID + "', '" + this.orderID + "', 'Processing', '" + selectedDelivery + "', '" + this.deliveryTime + "', '" + this.deliveryDate + "')" ;
+			System.out.println(query);
+			stmt = conn.createStatement();
+			stmt.executeUpdate(query);
+			conn.close();
 		} catch(ClassNotFoundException e) 
 		{
 			e.printStackTrace();
