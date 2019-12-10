@@ -8,8 +8,13 @@
 <title>Grocery Items</title>
 </head>
 <body>
+
+<s:set var="hasCart" value="hasCart"/>
+
 <p><a href="<s:url action='logOut'/>">Logout</a></p>
-<p><a href="<s:url action='viewCart'/>">View Cart</a></p>
+<s:if test="%{#hasCart==true}">
+	<p><a href="<s:url action='viewCart'/>">View Cart</a></p>
+</s:if>
 <p><a href="<s:url action='viewOrders'/>">Track your orders</a></p>
 <p>The items are displayed here</p>
 <p> ID    Name    Category    Price    Quantity </p>
@@ -17,7 +22,7 @@
 
 <s:iterator value="products" status="status">
 	<form action="addToCart">
-		<s:hidden name="selectedID" value="%{ID}"/><s:property value="ID"/> <s:hidden name="selectedItem" value="%{Name}"/> <s:property value="Name"/>    <s:hidden name="selectedCategory" value="%{cate}"/> <s:property value="cate"/>   <s:hidden name="selectedPrice" value="%{price}"/>   <s:property value="price"/>  <s:hidden name="selectedQuantity" value="1"/>  <s:property value="quan"/>    <s:submit value="Add to Cart"/>
+		<s:hidden name="selectedID" value="%{ID}"/><s:property value="ID"/> <s:hidden name="selectedItem" value="%{Name}"/> <s:property value="Name"/>    <s:hidden name="selectedCategory" value="%{cate}"/> <s:property value="cate"/>   <s:hidden name="selectedPrice" value="%{price}"/>   <s:property value="price"/>  <s:hidden name="selectedQuantity" value="1"/>  <s:property value="qt"/>    <s:submit value="Add to Cart"/>
 	<br>
 	</form>
 </s:iterator>

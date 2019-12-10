@@ -8,14 +8,15 @@ import org.apache.struts2.interceptor.SessionAware;
 
 public class GroceryAction extends ActionSupport implements SessionAware{
 	
-	String Name;
-	int ID;
-	String cate;
-	int quan;
-	double price;
+	private String Name;
+	private int ID;
+	private String cate;
+	private int quan;
+	private double price;
 	private List<Item> products;
 	private String selectedItem, selectedCategory, selectedPrice, selectedQuantity, selectedID;
 	private Map<String, Object> userSession;
+	private boolean hasCart = false;
 	
 	public String addToCart() {
 		Connection conn = null;
@@ -46,6 +47,49 @@ public class GroceryAction extends ActionSupport implements SessionAware{
 				query = "UPDATE cart SET `itemQuantity` = " + newQuant + " WHERE `userId` = '" + userID + "' AND `itemID` = '" + selectedID + "'";
 				Statement stmt = conn.createStatement();
 				stmt.executeUpdate(query);
+			}
+			hasCart = true;
+			conn.close();
+		} 
+		catch(ClassNotFoundException e) 
+		{
+			e.printStackTrace();
+			return ERROR;
+		}
+		catch(SQLException e) 
+		{
+			e.printStackTrace();
+			return ERROR;
+		}
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+			return ERROR;
+		}
+		return SUCCESS;
+	}
+	
+	public String checkCart(){
+		Connection conn = null;
+		String url = "jdbc:mysql://localhost:3306/";
+		String dbName = "user/customer";
+		String driver = "com.mysql.jdbc.Driver";
+		String userName = "root";
+		String password = "";
+		String userID = (String) userSession.get("currentUserID");
+		System.out.println(userID);
+		String query = null;
+		
+		try {
+			Class.forName(driver).newInstance();
+			conn = DriverManager.getConnection(url+dbName,userName,password);
+			query = "Select * FROM cart WHERE `userId` = '" + userID + "'";
+			Statement cartStatement = conn.createStatement();
+			ResultSet cartRS= cartStatement.executeQuery(query);		
+			if (!cartRS.next()) { // Empty query results
+				hasCart = false;
+			} else { // If it is present, update the count
+				hasCart = true;
 			}
 			conn.close();
 		} 
@@ -87,8 +131,6 @@ public class GroceryAction extends ActionSupport implements SessionAware{
 		ResultSet rs= stmt.executeQuery(query);
 		
 		products = new ArrayList();
-		
-		//value per collumn in the table, can change based on how many columns there are
 		while (rs.next())
 		{
 			Name = rs.getString(1);
@@ -101,7 +143,7 @@ public class GroceryAction extends ActionSupport implements SessionAware{
 			
 		} //end while
 		conn.close();
-//		System.out.println("Disconnected from database");
+		checkCart();
 	} //end try
 	catch(ClassNotFoundException e) 
 	{
@@ -162,10 +204,6 @@ public class GroceryAction extends ActionSupport implements SessionAware{
 		return products;
 	}
 
-	public void setProducts(List products) {
-		this.products = products;
-	}
-
 	public String getSelectedItem() {
 		return selectedItem;
 	}
@@ -208,6 +246,18 @@ public class GroceryAction extends ActionSupport implements SessionAware{
 	
 	public void setSession(Map<String, Object> session) {
 		userSession = session ;
+	}
+
+	public boolean isHasCart() {
+		return hasCart;
+	}
+
+	public void setHasCart(boolean hasCart) {
+		this.hasCart = hasCart;
+	}
+
+	public void setProducts(List<Item> products) {
+		this.products = products;
 	}
 
 }
