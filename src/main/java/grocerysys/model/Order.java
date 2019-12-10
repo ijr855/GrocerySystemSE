@@ -15,6 +15,8 @@ public class Order {
 	private List<Item> cart;
 	private String deliveryTime;
 	private String deliveryDate;
+	private double total;
+	private String deliverSpeed;
 	
 	public Order (String orderID, String customerID, List<Item> cart, String deliveryTime, String deliveryDate) {
 		this.orderID = orderID;
@@ -22,6 +24,15 @@ public class Order {
 		this.cart = cart;
 		this.deliveryTime = deliveryTime;
 		this.deliveryDate = deliveryDate;
+	}
+	
+	public Order (String orderID, String customerID, String deliveryTime, String deliveryDate, String deliverSpeed, double total) {
+		this.orderID = orderID;
+		this.customerID = customerID;
+		this.deliveryTime = deliveryTime;
+		this.deliveryDate = deliveryDate;
+		this.deliverSpeed = deliverSpeed;
+		this.total = total;
 	}
 	
 	public void pushOrder(double total, String selectedDelivery) {
@@ -97,6 +108,62 @@ public class Order {
 			e.printStackTrace();
 			return;
 		}
+	}
+
+	public String getOrderID() {
+		return orderID;
+	}
+
+	public void setOrderID(String orderID) {
+		this.orderID = orderID;
+	}
+
+	public String getCustomerID() {
+		return customerID;
+	}
+
+	public void setCustomerID(String customerID) {
+		this.customerID = customerID;
+	}
+
+	public List<Item> getCart() {
+		return cart;
+	}
+
+	public void setCart(List<Item> cart) {
+		this.cart = cart;
+	}
+
+	public String getDeliveryTime() {
+		return deliveryTime;
+	}
+
+	public void setDeliveryTime(String deliveryTime) {
+		this.deliveryTime = deliveryTime;
+	}
+
+	public String getDeliveryDate() {
+		return deliveryDate;
+	}
+
+	public void setDeliveryDate(String deliveryDate) {
+		this.deliveryDate = deliveryDate;
+	}
+
+	public double getTotal() {
+		return total;
+	}
+
+	public void setTotal(double total) {
+		this.total = total;
+	}
+
+	public String getDeliverSpeed() {
+		return deliverSpeed;
+	}
+
+	public void setDeliverSpeed(String deliverSpeed) {
+		this.deliverSpeed = deliverSpeed;
 	}
 	
 }
