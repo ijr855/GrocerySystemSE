@@ -96,7 +96,7 @@ public class CheckOutAction extends ActionSupport implements SessionAware {
 				System.out.println(query);
 				itemStatement = conn.createStatement();
 				itemStatement.executeUpdate(query);
-				price = itemRS.getDouble("Price");
+				price = cartRS.getDouble("price");
 				name = itemRS.getString("Name");
 				category = itemRS.getString("Category");
 				Item toAdd = new Item(name, category, price, quantity, itemID); // Create item details using info from query
@@ -158,6 +158,7 @@ public class CheckOutAction extends ActionSupport implements SessionAware {
 		String driver = "com.mysql.jdbc.Driver";
 		String userName = "root";
 		String password = "";
+		String userID = (String) userSession.get("currentUserID"); // Get user ID from session
 		if (code.isEmpty()) return; 
 		try {
 			Class.forName(driver).newInstance();
@@ -169,7 +170,11 @@ public class CheckOutAction extends ActionSupport implements SessionAware {
 			if (!codeRS.next()){
 				addFieldError("code", "Invalid checkout code.");
 			} else {
-				; // Apply Discount
+				boolean inCart = Order.applyDiscount(codeRS.getDouble(2), codeRS.getInt(3), codeRS.getInt(4), userID); // Apply Discount
+				if (!inCart){
+					conn.close();
+					addFieldError("code", "Item this code applies to is not in your cart.");
+				}
 			}
 			
 			conn.close();

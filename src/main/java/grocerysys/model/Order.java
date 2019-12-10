@@ -37,8 +37,10 @@ public class Order {
 	
 	public void calcTotal(){
 		for (Item curItem : this.cart){
-			total = total + curItem.getPrice();
+			total = total + (curItem.getPrice() * curItem.qt);
+			System.out.println(this.total);
 		}
+		
 	}
 	
 	public void pushOrder(String selectedDelivery) {
@@ -116,6 +118,55 @@ public class Order {
 		}
 	}
 
+	public static boolean applyDiscount(double discount, int itemID, int type, String userID){
+		Connection conn = null; // Establish db connection
+		String url = "jdbc:mysql://localhost:3306/";
+		String dbName = "user/customer";
+		String driver = "com.mysql.jdbc.Driver";
+		String userName = "root";
+		String password = ""; 
+		try {
+			Class.forName(driver).newInstance();
+			conn = DriverManager.getConnection(url+dbName,userName,password);
+			String query = "SELECT price FROM cart WHERE `itemId` = '" + itemID + "'"; 
+			Statement stmt = conn.createStatement();
+			ResultSet codeRS = stmt.executeQuery(query);
+			if(codeRS.next()){
+				double newPrice = codeRS.getDouble(1);
+				if (type == 2){
+					// Flat discount
+					newPrice = newPrice - discount;
+				} else {
+					// Percent discount		
+					discount = discount / 100;
+					newPrice = newPrice * (1-discount);
+				}
+				query = "UPDATE cart SET `price` = '" + newPrice + "' WHERE `itemId` = '" + itemID + "' AND userId = '" + userID + "'";
+				stmt = conn.createStatement();
+				stmt.executeUpdate(query);
+			} else {
+				return false; // Item was not in cart.
+			}
+			
+			conn.close();
+		} catch(ClassNotFoundException e) 
+		{
+			e.printStackTrace();
+			return false;
+		}
+		catch(SQLException e) 
+		{
+			e.printStackTrace();
+			return false;
+		}
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+	
 	public String getOrderID() {
 		return orderID;
 	}
