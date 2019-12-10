@@ -63,6 +63,14 @@
         	<result name="success">/index.jsp</result>
         </action>
         
+        <!-- View Orders -->
+        <action name="viewOrders" class="grocerysys.action.TrackAction" method="getOrders">
+        	<result name="success">/views/userorders.jsp</result>
+        </action>
+        <action name="viewOrderDetails" class="grocerysys.action.TrackAction" method="getOrderDetails">
+        	<result name="success">/views/vieworder.jsp</result>
+        </action>
+        
     </package>
 
 </struts>

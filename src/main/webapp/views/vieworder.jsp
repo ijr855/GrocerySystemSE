@@ -5,13 +5,13 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Grocery Items</title>
+<title>View Order</title>
 </head>
 <body>
 <p><a href="<s:url action='logOut'/>">Logout</a></p>
 <p><a href="<s:url action='viewCart'/>">View Cart</a></p>
 <p><a href="<s:url action='getGrocery'/>">Back to Shopping</a>
-<p>Back to order list</p>
+<p><a href="<s:url action='viewOrders'/>">Back to your orders</a></p>
 
 
 </body>

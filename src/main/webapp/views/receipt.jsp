@@ -10,7 +10,7 @@
 <body>
 <p><a href="<s:url action='logOut'/>">Logout</a></p>
 <p><a href="<s:url action='getGrocery'/>">Back to Shopping</a></p>
-<p>Track your orders</p>
+<p><a href="<s:url action='viewOrders'/>">Track your orders</a></p>
 
 <s:iterator value="cart" status="status">
 	<s:property value="ID"/> <s:property value="name"/>  <s:property value="category"/> <s:property value="price"/> <s:property value="qt"/>
