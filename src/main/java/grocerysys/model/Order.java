@@ -56,7 +56,6 @@ public class Order {
 			}
 			query = "INSERT INTO ordertracking (`total`, `customerID`, `orderID`, `status`, `deliverSpeed`, `deliveryTime`, `deliveryDate`) VALUES ('";
 			query = query + total + "', '" + this.customerID + "', '" + this.orderID + "', 'Processing', '" + selectedDelivery + "', '" + this.deliveryTime + "', '" + this.deliveryDate + "')" ;
-			System.out.println(query);
 			stmt = conn.createStatement();
 			stmt.executeUpdate(query);
 			conn.close();

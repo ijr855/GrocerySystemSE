@@ -91,6 +91,9 @@ public class CheckOutAction extends ActionSupport implements SessionAware {
 					newQt = 0;
 				}
 				// UPDATE item counts for item table by subtracting qt from each item in list from item table qt
+				query = "UPDATE items SET `Quantity` = '" + newQt + "' WHERE `item_ID` = '" + itemID + "'";
+				itemStatement = conn.createStatement();
+				itemStatement.executeUpdate(query);
 				price = itemRS.getDouble("Price");
 				name = itemRS.getString("Name");
 				category = itemRS.getString("Category");
