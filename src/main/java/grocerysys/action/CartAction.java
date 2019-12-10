@@ -9,6 +9,58 @@ public class CartAction extends ActionSupport implements SessionAware {
 
 	private Map<String, Object> userSession;
 	private List<Item> cart;
+	private int selectedID;
+	
+	public String subtractItem() {
+		Connection conn = null; // Establish db connection
+		String url = "jdbc:mysql://localhost:3306/";
+		String dbName = "user/customer";
+		String driver = "com.mysql.jdbc.Driver";
+		String userName = "root";
+		String password = "";
+		
+		String userID = (String) userSession.get("currentUserID"); // Get user ID from session
+		String name, category; // Used later to build user cart from DB queries
+		int itemID, quantity;
+		
+		try {
+			Class.forName(driver).newInstance(); 
+			conn = DriverManager.getConnection(url+dbName,userName,password);
+			String query = "Select `itemQuantity` FROM cart WHERE `userId` = '" + userID + "' AND `itemID` = '" + selectedID + "'"; 
+			Statement itemStatement = conn.createStatement();
+			ResultSet itemRS= itemStatement.executeQuery(query);
+			
+			while (itemRS.next())
+			{
+				quantity = itemRS.getInt(1);
+				quantity = quantity - 1;
+				if (quantity == 0) {
+					Statement dropStmt = conn.createStatement();
+					query = "DELETE FROM `cart` WHERE `itemID` = '" + selectedID + "'";
+					dropStmt.executeUpdate(query);
+				} else {
+					Statement subStmt = conn.createStatement();
+					query = "UPDATE cart SET `itemQuantity` = '" + quantity + "' WHERE `userID` = '" + userID + "' AND `itemID` = '" + selectedID + "'";
+					subStmt.executeUpdate(query);
+				}
+			} //end while
+			conn.close();
+		} //end try
+		catch(ClassNotFoundException e) 
+		{
+			e.printStackTrace();
+		}
+		catch(SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
+		return SUCCESS;
+		
+	}
 	
 	public String viewCart() {
 		Connection conn = null; // Establish db connection
@@ -84,5 +136,13 @@ public class CartAction extends ActionSupport implements SessionAware {
 
 	public void setCart(List<Item> cart) {
 		this.cart = cart;
+	}
+
+	public int getSelectedID() {
+		return selectedID;
+	}
+
+	public void setSelectedID(int selectedID) {
+		this.selectedID = selectedID;
 	}
 }

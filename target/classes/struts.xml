@@ -49,6 +49,12 @@
         	<result name="success">/views/cart.jsp</result>
         </action>
         
+        <!-- Cart Action -->
+        <action name="subtractItem" class="grocerysys.action.CartAction" method="subtractItem">
+        	<result name="success" type="redirectAction">
+        		<param name="actionName">viewCart</param>
+        	</result>
+        </action>
 
         <!-- Checkout Action -->
         <action name="checkOut" class="grocerysys.action.CheckOutAction" method="checkOut">

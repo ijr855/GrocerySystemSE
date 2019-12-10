@@ -24,7 +24,7 @@ white-space: pre;
 <p>Delivery Time:  <s:property value="selectedDeliveryTime"/></p>
 <p>Category	Item ID		Item Name	Price	Quantity</p>
 <s:iterator value="orderItems" status="status">	
-<s:property value="category"/>		<s:property value="ID"/>		<s:property value="name"/>		<s:property value="price"/>		<s:property value="qt"/>
+<s:property value="category"/>		<s:property value="ID"/>		<s:property value="name"/>		<s:property value="price"/>	<s:property value="qt"/>
 	<br>
 </s:iterator>
 </pre>

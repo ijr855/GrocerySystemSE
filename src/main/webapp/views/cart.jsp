@@ -13,8 +13,8 @@
 <p><a href="<s:url action='checkOut'/>">Proceed to checkout</a></p>
 
 <s:iterator value="cart" status="status">
-	<form action="addToCart">
-	<s:property value="ID"/> <s:property value="name"/>  <s:property value="category"/> <s:property value="price"/> <s:property value="qt"/>
+	<form action="subtractItem">
+		<s:hidden name="selectedID" value="%{ID}"/><s:property value="ID"/> <s:property value="name"/>  <s:property value="category"/> <s:property value="price"/> <s:property value="qt"/> <s:submit value="-1 of This Item"/>
 	<br>
 	</form>
 </s:iterator>
