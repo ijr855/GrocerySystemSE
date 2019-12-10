@@ -11,13 +11,14 @@
 <p><a href="<s:url action='logOut'/>">Logout</a></p>
 <p><a href="<s:url action='getGrocery'/>">Back to Shopping</a></p>
 <p><a href="<s:url action='viewOrders'/>">Track your orders</a></p>
-
+<h1>Receipt</h1>
+<pre>
 <s:iterator value="cart" status="status">
 	<s:property value="ID"/> <s:property value="name"/>  <s:property value="category"/> <s:property value="price"/> <s:property value="qt"/>
 	<br>
 </s:iterator>
 <p>Shipping <s:property value="ship"/></p>
 <p>Total <s:property value="total"/></p>
-
+</pre>
 </body>
 </html>

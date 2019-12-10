@@ -10,6 +10,7 @@
 <body>
 <p><a href="<s:url action='logOut'/>">Logout</a></p>
 <p><a href="<s:url action='viewCart'/>">View Cart</a></p>
+<p><a href="<s:url action='viewOrders'/>">Track your orders</a></p>
 <p>The items are displayed here</p>
 <p> ID    Name    Category    Price    Quantity </p>
 
