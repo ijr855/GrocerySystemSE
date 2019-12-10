@@ -16,7 +16,9 @@
 	<p><a href="<s:url action='viewCart'/>">View Cart</a></p>
 </s:if>
 <p><a href="<s:url action='viewOrders'/>">Track your orders</a></p>
-<p>The items are displayed here</p>
+<s:form action="getGrocery">
+	<s:textfield type="text" name="searchVar" label="Search Items by Name"/> <s:submit value="Search"/>
+</s:form>
 <p> ID    Name    Category    Price    Quantity </p>
 
 

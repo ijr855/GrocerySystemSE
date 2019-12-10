@@ -14,7 +14,7 @@ public class GroceryAction extends ActionSupport implements SessionAware{
 	private int quan;
 	private double price;
 	private List<Item> products;
-	private String selectedItem, selectedCategory, selectedPrice, selectedQuantity, selectedID;
+	private String selectedItem, selectedCategory, selectedPrice, selectedQuantity, selectedID, searchVar = "";
 	private Map<String, Object> userSession;
 	private boolean hasCart = false;
 	
@@ -125,7 +125,7 @@ public class GroceryAction extends ActionSupport implements SessionAware{
 		Class.forName(driver).newInstance();
 		conn = DriverManager.getConnection(url+dbName,userName,password);
 		//in the query, its Select * FROM (table you wish to read from)
-		String query = "Select * FROM items";
+		String query = "Select * FROM items WHERE Name LIKE '" + searchVar + "%'";
 		System.out.println("Connected to the database");
 		Statement stmt = conn.createStatement();
 		ResultSet rs= stmt.executeQuery(query);
@@ -258,6 +258,14 @@ public class GroceryAction extends ActionSupport implements SessionAware{
 
 	public void setProducts(List<Item> products) {
 		this.products = products;
+	}
+
+	public String getSearchVar() {
+		return searchVar;
+	}
+
+	public void setSearchVar(String searchVar) {
+		this.searchVar = searchVar;
 	}
 
 }

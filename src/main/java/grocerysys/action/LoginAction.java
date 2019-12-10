@@ -68,6 +68,10 @@ public class LoginAction extends ActionSupport implements SessionAware{
 			addFieldError("username", "A username is required");
 		} 
 		
+		if (checkLogin() == ERROR){
+			addFieldError("username", "Username or Password is invalid");
+		}
+		
 		if (password == null || password.trim().equals("")) {
 			addFieldError("password", "A password is required");
 		}
