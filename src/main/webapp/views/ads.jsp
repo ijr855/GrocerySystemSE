@@ -5,12 +5,17 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Grocery System Home</title>
+<title>Promotions</title>
 </head>
 <body>
 	<p><a href="<s:url action='logOut'/>">Logout</a></p>
 	<p><a href="<s:url action='getGrocery'/>">Grocery List</a>
 	<p><a href="<s:url action='viewOrders'/>">Track your orders</a></p>
-	<p><a href="<s:url action='loadAds'/>">View active promotions</a></p>
+<pre>
+<p>Disc. Code	ItemID	Name	Type	Amount</p>
+<s:iterator value="promoList" status="status">
+<s:property value="code"/>	<s:property value="itemID"/>	<s:property value="itemName"/>	 <s:property value="type"/> 	<s:property value="discount"/>
+</s:iterator>
+</pre>
 </body>
 </html>

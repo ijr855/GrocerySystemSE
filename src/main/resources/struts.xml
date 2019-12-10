@@ -78,6 +78,11 @@
         	<result name="success">/views/vieworder.jsp</result>
         </action>
         
+        <action name="loadAds" class="grocerysys.action.AdsAction" method="loadAds">
+        	<result name="success">/views/ads.jsp</result>
+        	<result name="error">/views/homepage.jsp</result>
+        </action>
+        
     </package>
 
 </struts>

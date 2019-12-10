@@ -9,7 +9,6 @@
 </head>
 <body>
 	<h1>Please Enter Your Username and Password</h1>
-	<p>I've said hello to you <s:property value="#session.helloCount" /> times!</p>
 	<s:form action="attemptLogin">
 		<s:textfield name="username" label="Username"/>
 		<s:password name="password" label="Password"/>
