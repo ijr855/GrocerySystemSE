@@ -16,6 +16,11 @@
 		<s:select label="Pick the time of the delivery" list="deliveryTimes" name="selectedTime"/>
 		<s:radio label="Delivery Options" list="deliveryOptions" name="selectedDelivery" value="'Two day delivery (FREE)'"/>
 		<s:textfield type="text" label="Discount Code" name="code"/>
+		<s:select label="Select Payment Options" list="paymentOptions" name="selectedPayment"/>
+		<s:textfield label="Name on Card" name="cardName"/>
+		<s:textfield label="Card Number" type="number" name="cardNumber"/>
+		<s:textfield label="Expiration Date" type="date" name="expiration"/>
+		<s:textfield label="CVV" type="number" name="CVV"/>
 		<s:submit value="Confirm order"/>
 	</s:form>
 	<p><s:property value="#selectedDeliveryTime"/></p>
