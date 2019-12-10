@@ -32,6 +32,11 @@ public class CheckOutAction extends ActionSupport implements SessionAware {
 	
 	private String selectedTime;
 	
+	private String[] paymentOptions = {"Credit Card",
+										"Paypal",
+										"Store Credit"};
+	private String selectedPayment;
+	
 	private String[] deliveryOptions = { "Same day delivery ($3.99)",
 										 "Next day delivery ($1.99)",
 										 "Two day delivery (FREE)" };
@@ -272,6 +277,22 @@ public class CheckOutAction extends ActionSupport implements SessionAware {
 
 	public void setCode(String code) {
 		this.code = code;
+	}
+	
+	public String[] getPaymentOptions() {
+		return paymentOptions;
+	}
+
+	public void setPaymentOptions(String[] paymentOptions) {
+		this.paymentOptions = paymentOptions;
+	}
+
+	public String getSelectedPayment() {
+		return selectedPayment;
+	}
+
+	public void setSelectedPayment(String selectedPayment) {
+		this.selectedPayment = selectedPayment;
 	}
 
 }

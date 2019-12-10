@@ -19,6 +19,6 @@
 			<s:textfield type="password" name="pword" label="Password"/>
 			<s:submit value="Create Account"/>
 	</s:form>
-
+    <p><a href="<s:url action='selectlogin'/>">Login</a></p>	
 </body>
 </html>
