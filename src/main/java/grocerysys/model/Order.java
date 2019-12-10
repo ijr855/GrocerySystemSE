@@ -35,7 +35,13 @@ public class Order {
 		this.total = total;
 	}
 	
-	public void pushOrder(double total, String selectedDelivery) {
+	public void calcTotal(){
+		for (Item curItem : this.cart){
+			total = total + curItem.getPrice();
+		}
+	}
+	
+	public void pushOrder(String selectedDelivery) {
 		Connection conn = null; // Establish db connection
 		String url = "jdbc:mysql://localhost:3306/";
 		String dbName = "user/customer";
@@ -55,7 +61,7 @@ public class Order {
 				stmt.executeUpdate(query);
 			}
 			query = "INSERT INTO ordertracking (`total`, `customerID`, `orderID`, `status`, `deliverSpeed`, `deliveryTime`, `deliveryDate`) VALUES ('";
-			query = query + total + "', '" + this.customerID + "', '" + this.orderID + "', 'Processing', '" + selectedDelivery + "', '" + this.deliveryTime + "', '" + this.deliveryDate + "')" ;
+			query = query + this.total + "', '" + this.customerID + "', '" + this.orderID + "', 'Processing', '" + selectedDelivery + "', '" + this.deliveryTime + "', '" + this.deliveryDate + "')" ;
 			stmt = conn.createStatement();
 			stmt.executeUpdate(query);
 			conn.close();
@@ -92,6 +98,7 @@ public class Order {
 				Statement stmt = conn.createStatement();
 				stmt.executeUpdate(query);
 			}
+			conn.close();
 		} catch(ClassNotFoundException e) 
 		{
 			e.printStackTrace();

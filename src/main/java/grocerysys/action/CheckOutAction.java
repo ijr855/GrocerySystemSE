@@ -41,6 +41,7 @@ public class CheckOutAction extends ActionSupport implements SessionAware {
 	private Map<String, Object> userSession;
 	private List<Item> cart;
 	private double total, ship;
+	private String code = "";
 	
 	public String confirmOrder() {
 		// Get user items currently in cart, as all should be being purchased. Put in list.
@@ -98,22 +99,28 @@ public class CheckOutAction extends ActionSupport implements SessionAware {
 				price = itemRS.getDouble("Price");
 				name = itemRS.getString("Name");
 				category = itemRS.getString("Category");
-				total = total + (price * quantity);
 				Item toAdd = new Item(name, category, price, quantity, itemID); // Create item details using info from query
 				System.out.println(toAdd.toString());
 				cart.add(toAdd);
 				itemStatement.close();
 			} //end while
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			String date = sdf.format(new Date()); 
+			Calendar c = Calendar.getInstance();
+			c.setTime(sdf.parse(date));
+			c.add(Calendar.DATE, days);
+			date = sdf.format(c.getTime());
+			Order newOrder = new Order(Integer.toString(newOrderID), userID, cart, selectedTime, date);
 			for (int i = 0; i < deliveryOptions.length; i++) {
 				if (selectedDelivery.equals(deliveryOptions[i])) {
 					days = i;
 					switch(i) {
 					case 0:
-						total = total + 3.99;
+						newOrder.setTotal(3.99);
 						ship = 3.99;
 						break;
 					case 1:
-						total = total + 1.99;
+						newOrder.setTotal(1.99);
 						ship = 1.99;
 						break;
 					default:
@@ -122,14 +129,10 @@ public class CheckOutAction extends ActionSupport implements SessionAware {
 				}
 				
 			}
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			String date = sdf.format(new Date()); 
-			Calendar c = Calendar.getInstance();
-			c.setTime(sdf.parse(date));
-			c.add(Calendar.DATE, days);
-			date = sdf.format(c.getTime());
-			Order newOrder = new Order(Integer.toString(newOrderID), userID, cart, selectedTime, date);
-			newOrder.pushOrder(total, selectedDelivery);
+			
+			newOrder.calcTotal();
+			total = newOrder.getTotal();
+			newOrder.pushOrder(selectedDelivery);
 			newOrder.cleanCart();
 			conn.close();
 		} //end try
@@ -146,6 +149,45 @@ public class CheckOutAction extends ActionSupport implements SessionAware {
 			e.printStackTrace();
 		}						
 		return SUCCESS;
+	}
+	
+	public void validate() {
+		Connection conn = null; // Establish db connection
+		String url = "jdbc:mysql://localhost:3306/";
+		String dbName = "user/customer";
+		String driver = "com.mysql.jdbc.Driver";
+		String userName = "root";
+		String password = "";
+		if (code.isEmpty()) return; 
+		try {
+			Class.forName(driver).newInstance();
+			conn = DriverManager.getConnection(url+dbName,userName,password);
+			String query = "SELECT * FROM promos WHERE `Code` = '" + code + "'"; 
+			System.out.println(query);
+			Statement stmt = conn.createStatement();
+			ResultSet codeRS = stmt.executeQuery(query);
+			if (!codeRS.next()){
+				addFieldError("code", "Invalid checkout code.");
+			} else {
+				; // Apply Discount
+			}
+			
+			conn.close();
+		} catch(ClassNotFoundException e) 
+		{
+			e.printStackTrace();
+			return;
+		}
+		catch(SQLException e) 
+		{
+			e.printStackTrace();
+			return;
+		}
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+			return;
+		}
 	}
 	
 	public String checkOut() {
@@ -217,6 +259,14 @@ public class CheckOutAction extends ActionSupport implements SessionAware {
 
 	public void setShip(double ship) {
 		this.ship = ship;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
 	}
 
 }

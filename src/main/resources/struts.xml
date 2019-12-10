@@ -62,6 +62,7 @@
 
         <action name="confirmOrder" class="grocerysys.action.CheckOutAction" method="confirmOrder">
         	<result name="success">/views/receipt.jsp</result>
+        	<result name="input">/views/confirmorder.jsp</result>
         </action>
         
         <!-- Home page actions -->

@@ -14,7 +14,8 @@
 	<h1>Review Your Order</h1>
 	<s:form action="confirmOrder">
 		<s:select label="Pick the time of the delivery" list="deliveryTimes" name="selectedTime"/>
-		<s:radio label="Delivery Options" list="deliveryOptions" name="selectedDelivery"/>
+		<s:radio label="Delivery Options" list="deliveryOptions" name="selectedDelivery" value="'Two day delivery (FREE)'"/>
+		<s:textfield type="text" label="Discount Code" name="code"/>
 		<s:submit value="Confirm order"/>
 	</s:form>
 	<p><s:property value="#selectedDeliveryTime"/></p>
