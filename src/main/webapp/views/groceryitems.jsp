@@ -12,6 +12,7 @@
 <s:set var="hasCart" value="hasCart"/>
 
 <p><a href="<s:url action='logOut'/>">Logout</a></p>
+<p><a href="<s:url action='goHome'/>">Return to homepage</a></p>
 <s:if test="%{#hasCart==true}">
 	<p><a href="<s:url action='viewCart'/>">View Cart</a></p>
 </s:if>

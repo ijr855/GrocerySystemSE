@@ -30,17 +30,8 @@ public class IndexAction extends ActionSupport implements SessionAware {
 	public void setUserSession(Map<String, Object> userSession) {
 		this.userSession = userSession;
 	}
-	private void increaseHelloCount() {
-		Integer helloCount = (Integer) userSession.get("helloCount");
 
-
-		if (helloCount == null ) {
-			helloCount = 1;
-		} else {
-			helloCount++;
-		}
-
-		userSession.put("helloCount", helloCount);
+	public String goHome() {
+		return SUCCESS;
 	}
-
 }

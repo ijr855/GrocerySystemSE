@@ -9,6 +9,7 @@
 </head>
 <body>
 <p><a href="<s:url action='logOut'/>">Logout</a></p>
+<p><a href="<s:url action='goHome'/>">Return to homepage</a></p>
 <p><a href="<s:url action='viewCart'/>">View Cart</a></p>
 <p><a href="<s:url action='getGrocery'/>">Back to Shopping</a></p>
 

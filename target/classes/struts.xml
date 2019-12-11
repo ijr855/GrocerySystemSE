@@ -26,6 +26,11 @@
         	<result name="success">/views/homepage.jsp</result>
         </action>
         
+        <!-- Homepage action -->
+        <action name="goHome" class="grocerysys.action.IndexAction" method="goHome">
+        	<result name="success">/views/homepage.jsp</result>
+        </action>
+        
         <!-- Create Account Actions -->
         <action name="createAccount" class="grocerysys.action.CreateAccountAction" method="createAccount">
         	<result name="success">/views/homepage.jsp</result>
