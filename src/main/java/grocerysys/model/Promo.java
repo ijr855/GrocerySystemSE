@@ -1,5 +1,6 @@
 package grocerysys.model;
 
+// Simple class composed of just constructor and toString. Used to hold information about promotions.
 public class Promo {
 
 	private String code;

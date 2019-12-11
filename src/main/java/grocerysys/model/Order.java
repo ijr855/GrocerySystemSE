@@ -8,7 +8,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import grocerysys.model.Item;
 import java.util.Date;
-
+/**
+ * The order class is interesting and has plenty of information within it. It is primarily composed of a cart, alongside 
+ * a few key details selected mostly at checkout/assigned to the user as they use the application. Of note are multiple constructors,
+ * for building orders and carts alike, and functions to facilitate neat transfer of carts to order tables.
+ *
+ */
 public class Order {
 	private String orderID;
 	private String customerID;
@@ -35,6 +40,7 @@ public class Order {
 		this.total = total;
 	}
 	
+	// Calculates total of the order. Useful for when we need to apply promos.
 	public void calcTotal(){
 		for (Item curItem : this.cart){
 			total = total + (curItem.getPrice() * curItem.qt);
@@ -43,6 +49,7 @@ public class Order {
 		
 	}
 	
+	// Pushes order information to two databases: ordertracking and orders. ordertracking is higher level, orders is individual items in orders.
 	public void pushOrder(String selectedDelivery) {
 		Connection conn = null; // Establish db connection
 		String url = "jdbc:mysql://localhost:3306/";
@@ -56,12 +63,12 @@ public class Order {
 			conn = DriverManager.getConnection(url+dbName,userName,password);
 			Statement stmt;
 			String query = null;
-			for (Item curItem : this.cart) {
+			for (Item curItem : this.cart) { // Push every item to the orders table
 				query = "INSERT INTO orders (`custID`, `orderID`, `item_ID`, `Quantity`, `Price`, `deliveryTime`, `deliveryDate`, `Status`) VALUES ('";
 				query = query + this.customerID + "', '" + this.orderID + "', '" + curItem.getID() + "', '" + curItem.getQt() + "', '" + curItem.getPrice() + "', '" + this.deliveryTime + "', '" + this.deliveryDate + "', 'Processing')";
 				stmt = conn.createStatement();
 				stmt.executeUpdate(query);
-			}
+			} // Push the order into ordertracking.
 			query = "INSERT INTO ordertracking (`total`, `customerID`, `orderID`, `status`, `deliverSpeed`, `deliveryTime`, `deliveryDate`) VALUES ('";
 			query = query + this.total + "', '" + this.customerID + "', '" + this.orderID + "', 'Processing', '" + selectedDelivery + "', '" + this.deliveryTime + "', '" + this.deliveryDate + "')" ;
 			stmt = conn.createStatement();
@@ -84,7 +91,8 @@ public class Order {
 		}
 	}
 	
-	public void cleanCart() {
+	// cleanCart purges the cart table from items relating to this user, effectively clearing the user's cart.
+	public void cleanCart() { 
 		Connection conn = null; // Establish db connection
 		String url = "jdbc:mysql://localhost:3306/";
 		String dbName = "user/customer";
@@ -118,6 +126,17 @@ public class Order {
 		}
 	}
 
+	/**
+	 *  Apply discount is a static class used when validating discount codes. If a discount code is valid, this is called
+	 *  and it attempts to apply the proper discount to the proper item. Returns true on success, returns false on failure. 
+	 *  Failures can be connection/query failures, but logically they are intended to be instances where item which code
+	 *  applies to does not exist in cart. Discount is applied by updating item's price in user's cart.
+	 *  Parameters mainly describe the details of the discount code:
+	 *  discount = degree of discount
+	 *  itemID = item to apply discount to
+	 *  type = type of discount. 1 is a percentage based discount, 2 is a flat subtraction discount.
+	 *  userID = user to apply discount to
+	 */
 	public static boolean applyDiscount(double discount, int itemID, int type, String userID){
 		Connection conn = null; // Establish db connection
 		String url = "jdbc:mysql://localhost:3306/";
@@ -128,10 +147,10 @@ public class Order {
 		try {
 			Class.forName(driver).newInstance();
 			conn = DriverManager.getConnection(url+dbName,userName,password);
-			String query = "SELECT price FROM cart WHERE `itemId` = '" + itemID + "'"; 
+			String query = "SELECT price FROM cart WHERE `itemId` = '" + itemID + "'"; // Get item from cart.
 			Statement stmt = conn.createStatement();
 			ResultSet codeRS = stmt.executeQuery(query);
-			if(codeRS.next()){
+			if(codeRS.next()){ // If item is in cart, then apply discount with UPDATE
 				double newPrice = codeRS.getDouble(1);
 				if (type == 2){
 					// Flat discount
@@ -144,7 +163,7 @@ public class Order {
 				query = "UPDATE cart SET `price` = '" + newPrice + "' WHERE `itemId` = '" + itemID + "' AND userId = '" + userID + "'";
 				stmt = conn.createStatement();
 				stmt.executeUpdate(query);
-			} else {
+			} else { // Otherwise...
 				return false; // Item was not in cart.
 			}
 			

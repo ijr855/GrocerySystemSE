@@ -2,6 +2,7 @@ package grocerysys.model;
 
 import java.util.Map;
 
+// Simple class used mainly to help store user informationn as the application is used. Potentially worth tossing?
 public class User {
 	private String username;
 	private String password;

@@ -1,5 +1,9 @@
 package grocerysys.model;
 
+/** The item class is a fundamental building block class. Items are used throughout the entire application.
+ * They are stored as part of orders, promos require order objects to be applied properly, and they even have their own table in the db.
+ * As such, their actual functionality is rather sparse, with only a constructor and toString function really existing.
+ */
 public class Item {
 
 	String name;
