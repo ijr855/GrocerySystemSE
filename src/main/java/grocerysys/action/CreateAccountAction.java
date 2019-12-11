@@ -16,6 +16,7 @@ public class CreateAccountAction extends ActionSupport implements SessionAware{
 	
 	private Map<String, Object> userSession;
 
+	// Simple concept. Takes values from fields on account creation and inserts them into the customer table. Assigns UID
 	public String createAccount() {
 		System.out.println("MySQL Connect Example.");
 		Connection conn = null;String url = "jdbc:mysql://localhost:3306/";
