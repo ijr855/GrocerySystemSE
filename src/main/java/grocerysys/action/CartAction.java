@@ -7,10 +7,11 @@ import org.apache.struts2.interceptor.SessionAware;
 
 public class CartAction extends ActionSupport implements SessionAware {
 
-	private Map<String, Object> userSession;
-	private List<Item> cart;
-	private int selectedID;
+	private Map<String, Object> userSession; // Used to access session variables
+	private List<Item> cart; // Used to store items in db belonging to user
+	private int selectedID; // Used for deletion from cart.
 	
+	// This function is called when the user decides to delete one of an item from their cart. Pretty straightforward.
 	public String subtractItem() {
 		Connection conn = null; // Establish db connection
 		String url = "jdbc:mysql://localhost:3306/";
@@ -25,20 +26,20 @@ public class CartAction extends ActionSupport implements SessionAware {
 		
 		try {
 			Class.forName(driver).newInstance(); 
-			conn = DriverManager.getConnection(url+dbName,userName,password);
-			String query = "Select `itemQuantity` FROM cart WHERE `userId` = '" + userID + "' AND `itemID` = '" + selectedID + "'"; 
+			conn = DriverManager.getConnection(url+dbName,userName,password); 
+			String query = "Select `itemQuantity` FROM cart WHERE `userId` = '" + userID + "' AND `itemID` = '" + selectedID + "'"; // Get current ct in cart
 			Statement itemStatement = conn.createStatement();
 			ResultSet itemRS= itemStatement.executeQuery(query);
 			
 			while (itemRS.next())
 			{
-				quantity = itemRS.getInt(1);
+				quantity = itemRS.getInt(1); 
 				quantity = quantity - 1;
-				if (quantity == 0) {
+				if (quantity == 0) { // Remove from cart if there are none left.
 					Statement dropStmt = conn.createStatement();
 					query = "DELETE FROM `cart` WHERE `itemID` = '" + selectedID + "'";
 					dropStmt.executeUpdate(query);
-				} else {
+				} else { // Simply update if there are still some left.
 					Statement subStmt = conn.createStatement();
 					query = "UPDATE cart SET `itemQuantity` = '" + quantity + "' WHERE `userID` = '" + userID + "' AND `itemID` = '" + selectedID + "'";
 					subStmt.executeUpdate(query);
@@ -62,6 +63,7 @@ public class CartAction extends ActionSupport implements SessionAware {
 		
 	}
 	
+	// This function queries the cart table for items belonging to the user so that they may be displayed.
 	public String viewCart() {
 		Connection conn = null; // Establish db connection
 		String url = "jdbc:mysql://localhost:3306/";
@@ -72,7 +74,7 @@ public class CartAction extends ActionSupport implements SessionAware {
 		
 		String userID = (String) userSession.get("currentUserID"); // Get user ID from session
 		String name, category; // Used later to build user cart from DB queries
-		int itemID, quantity;
+		int itemID, quantity; // Used for building item objects alongside the below variable
 		double price;
 		
 		try {
