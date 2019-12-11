@@ -12,6 +12,7 @@ public class TrackAction extends ActionSupport implements SessionAware{
 	private List<Order> userOrders;
 	private List<Item> orderItems;
 	private String selectedOrderID, selectedTotal, selectedDeliverSpeed, selectedDeliveryDate, selectedDeliveryTime;
+	private double orderTotal;
 	
 	public String getOrders() {
 		Connection conn = null;
@@ -111,6 +112,7 @@ public class TrackAction extends ActionSupport implements SessionAware{
 			e.printStackTrace();
 			return ERROR;
 		}
+		this.orderTotal = Double.parseDouble(selectedTotal);
 		return SUCCESS;
 	}
 	
@@ -172,6 +174,14 @@ public class TrackAction extends ActionSupport implements SessionAware{
 
 	public void setSelectedDeliveryTime(String selectedDeliveryTime) {
 		this.selectedDeliveryTime = selectedDeliveryTime;
+	}
+
+	public double getOrderTotal() {
+		return orderTotal;
+	}
+
+	public void setOrderTotal(double orderTotal) {
+		this.orderTotal = orderTotal;
 	}
 	
 }

@@ -14,12 +14,13 @@
 <p><a href="<s:url action='viewOrders'/>">Track your orders</a></p>
 <h1>Receipt</h1>
 <pre>
+ID	Name	Category	Price	Quantity
 <s:iterator value="cart" status="status">
-	<s:property value="ID"/> <s:property value="name"/>  <s:property value="category"/> <s:property value="price"/> <s:property value="qt"/>
+<s:property value="ID"/> 	<s:property value="name"/>  <s:property value="category"/> 	<s:property value="getText('{0,number,#,##0.00}',{price})"/> 	<s:property value="qt"/>
 	<br>
 </s:iterator>
 <p>Shipping <s:property value="ship"/></p>
-<p>Total <s:property value="total"/></p>
+<p>Total <s:property value="getText('{0,number,#,##0.00}',{total})"/>
 </pre>
 </body>
 </html>

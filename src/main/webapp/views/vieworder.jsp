@@ -19,13 +19,13 @@ white-space: pre;
 
 <pre>
 <p>Order ID:       <s:property value="selectedOrderID"/></p>
-<p>Order Total:    <s:property value="selectedTotal"/></p>
+<p>Order Total:    <s:property value="getText('{0,number,#,##0.00}',{orderTotal})"/>
 <p>Delivery Speed: <s:property value="selectedDeliverSpeed"/></p>
 <p>Delivery Date:  <s:property value="selectedDeliveryDate"/></p>
 <p>Delivery Time:  <s:property value="selectedDeliveryTime"/></p>
 <p>Category	Item ID		Item Name	Price	Quantity</p>
 <s:iterator value="orderItems" status="status">	
-<s:property value="category"/>		<s:property value="ID"/>		<s:property value="name"/>		<s:property value="price"/>	<s:property value="qt"/>
+<s:property value="category"/>		<s:property value="ID"/>		<s:property value="name"/>		<s:property value="getText('{0,number,#,##0.00}',{price})"/>	<s:property value="qt"/>
 	<br>
 </s:iterator>
 </pre>
