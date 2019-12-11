@@ -12,12 +12,13 @@
 <p><a href="<s:url action='goHome'/>">Return to homepage</a></p>
 <p><a href="<s:url action='getGrocery'/>">Back to Shopping</a>
 <p><a href="<s:url action='checkOut'/>">Proceed to checkout</a></p>
-
+<pre><p>ID  Name      Cat. Price Quantity </p></pre>
 <s:iterator value="cart" status="status">
 	<form action="subtractItem">
-		<s:hidden name="selectedID" value="%{ID}"/><s:property value="ID"/> <s:property value="name"/>  <s:property value="category"/> <s:property value="price"/> <s:property value="qt"/> <s:submit value="-1 of This Item"/>
+		<s:hidden name="selectedID" value="%{ID}"/><s:property value="ID"/> <s:property value="name"/>  <s:property value="category"/> $<s:property value="getText('{0,number,#,##0.00}',{price})"/> <s:property value="qt"/> <s:submit value="-1 of This Item"/>
 	<br>
 	</form>
 </s:iterator>
+
 </body>
 </html>

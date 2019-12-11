@@ -20,12 +20,12 @@
 <s:form action="getGrocery">
 	<s:textfield type="text" name="searchVar" label="Search Items by Name"/> <s:submit value="Search"/>
 </s:form>
-<p> ID    Name    Category    Price    Quantity </p>
+<pre><p>ID  Name   Cat. Price Quantity </p></pre>
 
 
 <s:iterator value="products" status="status">
 	<form action="addToCart">
-		<s:hidden name="selectedID" value="%{ID}"/><s:property value="ID"/> <s:hidden name="selectedItem" value="%{Name}"/> <s:property value="Name"/>    <s:hidden name="selectedCategory" value="%{cate}"/> <s:property value="cate"/>   <s:hidden name="selectedPrice" value="%{price}"/>   <s:property value="price"/>  <s:hidden name="selectedQuantity" value="1"/>  <s:property value="qt"/>    <s:submit value="Add to Cart"/>
+		<s:hidden name="selectedID" value="%{ID}"/><s:property value="ID"/> <s:hidden name="selectedItem" value="%{Name}"/> <s:property value="Name"/>    <s:hidden name="selectedCategory" value="%{cate}"/> <s:property value="cate"/>   <s:hidden name="selectedPrice" value="%{price}"/>   $<s:property value="getText('{0,number,#,##0.00}',{price})"/>  <s:hidden name="selectedQuantity" value="1"/>  <s:property value="qt"/>    <s:submit value="Add to Cart"/>
 	<br>
 	</form>
 </s:iterator>
