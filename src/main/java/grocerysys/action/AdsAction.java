@@ -15,6 +15,7 @@ public class AdsAction extends ActionSupport{
 	
 	private List<Promo> promoList;
 	
+	// This method queries the promos database and places them in promolist for display on the ads.jsp
 	public String loadAds(){
 		promoList = new ArrayList<Promo>();
 		Connection conn = null; // Establish db connection
@@ -34,7 +35,7 @@ public class AdsAction extends ActionSupport{
 				double curDisc = codeRS.getDouble(2);
 				int itemID = codeRS.getInt(3);
 				int type = codeRS.getInt(4);
-				query = "SELECT `Name` FROM items WHERE Item_ID = '" + itemID + "'";
+				query = "SELECT `Name` FROM items WHERE Item_ID = '" + itemID + "'"; // Get item names for display
 				Statement curStmt = conn.createStatement();
 				ResultSet curRS = curStmt.executeQuery(query);
 				curRS.next();
