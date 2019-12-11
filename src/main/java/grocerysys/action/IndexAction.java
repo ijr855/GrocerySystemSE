@@ -15,7 +15,6 @@ public class IndexAction extends ActionSupport implements SessionAware {
 	}
 
 	public String loadLogin() {	
-		increaseHelloCount();
 		return SUCCESS;
 	}
 
