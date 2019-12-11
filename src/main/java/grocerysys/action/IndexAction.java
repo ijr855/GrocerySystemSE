@@ -6,6 +6,7 @@ import org.apache.struts2.interceptor.SessionAware;
 
 import com.opensymphony.xwork2.ActionSupport;
 
+// Roughest class in the entire project as far as use of framework. Really just contains functions to visit homepage, login, and account creation.
 public class IndexAction extends ActionSupport implements SessionAware {
 
 	private Map<String, Object> userSession ;
@@ -14,10 +15,12 @@ public class IndexAction extends ActionSupport implements SessionAware {
 		userSession = session ;
 	}
 
+	// Open login
 	public String loadLogin() {	
 		return SUCCESS;
 	}
 
+	// Open account creation.
 	public String loadCreate() {
 		return SUCCESS;
 	}
@@ -30,6 +33,7 @@ public class IndexAction extends ActionSupport implements SessionAware {
 		this.userSession = userSession;
 	}
 
+	// Open homepage
 	public String goHome() {
 		return SUCCESS;
 	}

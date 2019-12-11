@@ -20,6 +20,7 @@ import com.opensymphony.xwork2.ActionSupport;
 import grocerysys.model.Item;
 import grocerysys.model.Order;
 
+// This class handles user order confirmation and details and shipping the information where it needs to be.
 public class CheckOutAction extends ActionSupport implements SessionAware {
 	
 	private String[] deliveryTimes = {"10AM-11AM", // Used for time range dropdown menu on order confirmation

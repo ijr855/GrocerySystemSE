@@ -5,6 +5,7 @@ import com.opensymphony.xwork2.ActionSupport;
 import grocerysys.model.Item;
 import org.apache.struts2.interceptor.SessionAware;
 
+// This class handles any functionality related to the user's cart and viewing their cart.
 public class CartAction extends ActionSupport implements SessionAware {
 
 	private Map<String, Object> userSession; // Used to access session variables

@@ -6,6 +6,7 @@ import org.apache.struts2.interceptor.SessionAware;
 import com.opensymphony.xwork2.ActionSupport;
 import java.sql.*;
 
+// Simple class made to simply validate if the user has entered their information correctly on login
 public class LoginAction extends ActionSupport implements SessionAware{
 
 	
@@ -39,7 +40,7 @@ public class LoginAction extends ActionSupport implements SessionAware{
 			
 			System.out.println(username);
 			System.out.println(password);
-			
+			// Would be nice to securely hash and salt these but... not in our scope right now!
 			while(rs.next())
 			{
 				uname = rs.getString("username");

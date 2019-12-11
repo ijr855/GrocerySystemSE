@@ -5,19 +5,20 @@ import com.opensymphony.xwork2.ActionSupport;
 import grocerysys.model.Item;
 import org.apache.struts2.interceptor.SessionAware;
 
-
+// Class in charge of pulling from the item table to display to the user so that they may shop. Also handles searches.
 public class GroceryAction extends ActionSupport implements SessionAware{
 	
-	private String Name;
+	private String Name; // Vars used for display.
 	private int ID;
 	private String cate;
 	private int quan;
 	private double price;
-	private List<Item> products;
-	private String selectedItem, selectedCategory, selectedPrice, selectedQuantity, selectedID, searchVar = "";
-	private Map<String, Object> userSession;
-	private boolean hasCart = false;
+	private List<Item> products; // Full list of item objects for display.
+	private String selectedItem, selectedCategory, selectedPrice, selectedQuantity, selectedID, searchVar = ""; // Used to know what the user wants to purchase/search for
+	private Map<String, Object> userSession; // Used to access session variables.
+	private boolean hasCart = false; // Used to determine whether to give the user access to viewing their cart.
 	
+	// Takes details of item where button was clicked and adds them to cart with simple insert/update statement varying based on whether item already exists in cart.
 	public String addToCart() {
 		Connection conn = null;
 		String url = "jdbc:mysql://localhost:3306/";
@@ -69,6 +70,7 @@ public class GroceryAction extends ActionSupport implements SessionAware{
 		return SUCCESS;
 	}
 	
+	// Checks the cart for any items belonging to user to determine if link to cart should be displayed.
 	public String checkCart(){
 		Connection conn = null;
 		String url = "jdbc:mysql://localhost:3306/";
@@ -111,6 +113,7 @@ public class GroceryAction extends ActionSupport implements SessionAware{
 		return SUCCESS;
 	}
 	
+	// Simply pulls all item from the item database and prepares them for display.
 	public String GetGrocery() {
 	System.out.println("MySQL Connect Example.");
 	Connection conn = null;

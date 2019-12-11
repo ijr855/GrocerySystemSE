@@ -10,7 +10,7 @@ import com.opensymphony.xwork2.ActionSupport;
 
 import grocerysys.model.Promo;
 
-
+// This class controls the page which displays promotions
 public class AdsAction extends ActionSupport{
 	
 	private List<Promo> promoList;

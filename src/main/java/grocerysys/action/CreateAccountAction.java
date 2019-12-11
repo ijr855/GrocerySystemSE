@@ -4,6 +4,7 @@ import java.util.Map;
 import org.apache.struts2.interceptor.SessionAware;
 import com.opensymphony.xwork2.ActionSupport;
 
+// Class in charge of account creation view. Does lifting on account creationn.
 public class CreateAccountAction extends ActionSupport implements SessionAware{
 	
 	String firstName;

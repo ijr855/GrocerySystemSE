@@ -6,14 +6,16 @@ import grocerysys.model.Item;
 import org.apache.struts2.interceptor.SessionAware;
 import grocerysys.model.Order;
 
+// All work to let the user track their orders is done here. Controls the cooresponding views as well.
 public class TrackAction extends ActionSupport implements SessionAware{
 
-	private Map<String, Object> userSession;
-	private List<Order> userOrders;
-	private List<Item> orderItems;
-	private String selectedOrderID, selectedTotal, selectedDeliverSpeed, selectedDeliveryDate, selectedDeliveryTime;
-	private double orderTotal;
+	private Map<String, Object> userSession; // Access session variable.
+	private List<Order> userOrders; // Total list of user's orders.
+	private List<Item> orderItems; // List of items in an individual order
+	private String selectedOrderID, selectedTotal, selectedDeliverSpeed, selectedDeliveryDate, selectedDeliveryTime; // Used to know what order details to bring up.
+	private double orderTotal; // total cost of order.
 	
+	// getOrders queries the ordertracking table to get all of the current user's existing order, then puts them in userOrders for display.
 	public String getOrders() {
 		Connection conn = null;
 		String url = "jdbc:mysql://localhost:3306/";
@@ -63,6 +65,9 @@ public class TrackAction extends ActionSupport implements SessionAware{
 		return SUCCESS;
 	}
 	
+	/** getOrderDetails is called when the user clicks to track a particular order.
+	 *  Uses details from the main page to make proper queries to gather items belonnging to the order and display them easily.
+	 */
 	public String getOrderDetails() {
 		Connection conn = null;
 		String url = "jdbc:mysql://localhost:3306/";
