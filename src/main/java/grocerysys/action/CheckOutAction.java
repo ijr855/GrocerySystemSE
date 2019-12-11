@@ -22,32 +22,36 @@ import grocerysys.model.Order;
 
 public class CheckOutAction extends ActionSupport implements SessionAware {
 	
-	private String[] deliveryTimes = {"10AM-11AM", 
+	private String[] deliveryTimes = {"10AM-11AM", // Used for time range dropdown menu on order confirmation
 									  "11AM-12PM",
 									  "12PM-1PM",
 									  "1PM-2PM",
 									  "2PM-3PM",
 									  "4PM-5PM",
-									  "6PM-7PM"};
+									  "6PM-7PM"}; 
 	
-	private String selectedTime;
+	private String selectedTime; // Stores dropdown menu choice
 	
-	private String[] paymentOptions = {"Credit Card",
+	private String[] paymentOptions = {"Credit Card", // Used for payment option dropdown menu on order confirmation page
 										"Paypal",
 										"Store Credit"};
-	private String selectedPayment;
+	private String selectedPayment; // Store user payment choice
 	
-	private String[] deliveryOptions = { "Same day delivery ($3.99)",
+	private String[] deliveryOptions = { "Same day delivery ($3.99)", // Radio button options on order confirmation page. Notice a pattern yet?
 										 "Next day delivery ($1.99)",
 										 "Two day delivery (FREE)" };
 	
-	private String selectedDelivery;
+	private String selectedDelivery; // Stores... you guessed it! User radio button choice
 	
-	private Map<String, Object> userSession;
-	private List<Item> cart;
-	private double total, ship;
-	private String code = "";
+	private Map<String, Object> userSession; // Used to access session variable, userID
+	private List<Item> cart; // List of items for use when creating our order object 
+	private double total, ship; // Order cost total, shipping charge.
+	private String code = ""; // Discount code storage.
 	
+	/* This method is called when the user finishes selecting their form fields on order confirmation.
+	 * It queries the "cart" table for all items matching current user's ID, puts them in the cart list, then uses
+	 * this to build an order object, which then stores information about itself in the order and orderTracking tables.
+	 */
 	public String confirmOrder() {
 		// Get user items currently in cart, as all should be being purchased. Put in list.
 		Connection conn = null; // Establish db connection
@@ -73,7 +77,7 @@ public class CheckOutAction extends ActionSupport implements SessionAware {
 			
 			// Get most recent user order number. Increment by one.
 			Statement orderIDStatement = conn.createStatement();
-			query = "Select Max(OrderID) FROM orders";
+			query = "Select Max(OrderID) FROM orders"; // Get current highest order ID to determine new order ID
 			ResultSet orderIDRS = orderIDStatement.executeQuery(query);
 			orderIDRS.next();
 			newOrderID = orderIDRS.getInt(1);
@@ -85,38 +89,35 @@ public class CheckOutAction extends ActionSupport implements SessionAware {
 			{
 				quantity = cartRS.getInt("itemQuantity");
 				itemID = cartRS.getInt("itemid");
-				query = "Select * FROM items WHERE `item_ID` = '" + itemID + "'"; // Pull item details from Item table
+				query = "Select * FROM items WHERE `item_ID` = '" + itemID + "'"; // Pull item details from Item table for populating objects.
 				System.out.println(query);
 				Statement itemStatement = conn.createStatement();
 				ResultSet itemRS = itemStatement.executeQuery(query);
 				itemRS.next();
-				newQt = itemRS.getInt("Quantity");
+				newQt = itemRS.getInt("Quantity"); // newQt is here to be used for updating our availability count of an item in the "item" table
 				newQt = newQt - quantity;
 				if (newQt < 0) {
 					quantity = quantity + newQt;
 					newQt = 0;
 				}
-				// UPDATE item counts for item table by subtracting qt from each item in list from item table qt
 				query = "UPDATE items SET `Quantity` = '" + newQt + "' WHERE `item_ID` = '" + itemID + "'";
-				System.out.println(query);
 				itemStatement = conn.createStatement();
 				itemStatement.executeUpdate(query);
 				price = cartRS.getDouble("price");
 				name = itemRS.getString("Name");
 				category = itemRS.getString("Category");
 				Item toAdd = new Item(name, category, price, quantity, itemID); // Create item details using info from query
-				System.out.println(toAdd.toString());
-				cart.add(toAdd);
+				cart.add(toAdd); // Add new item to cart
 				itemStatement.close();
 			} //end while
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); // Pulling date to determine our estimated delivery date.
 			String date = sdf.format(new Date()); 
 			Calendar c = Calendar.getInstance();
 			c.setTime(sdf.parse(date));
 			c.add(Calendar.DATE, days);
 			date = sdf.format(c.getTime());
-			Order newOrder = new Order(Integer.toString(newOrderID), userID, cart, selectedTime, date);
-			for (int i = 0; i < deliveryOptions.length; i++) {
+			Order newOrder = new Order(Integer.toString(newOrderID), userID, cart, selectedTime, date); // Build order with cart and other info.
+			for (int i = 0; i < deliveryOptions.length; i++) { // Determine what to charge for shipping.
 				if (selectedDelivery.equals(deliveryOptions[i])) {
 					days = i;
 					switch(i) {
@@ -137,8 +138,8 @@ public class CheckOutAction extends ActionSupport implements SessionAware {
 			
 			newOrder.calcTotal();
 			total = newOrder.getTotal();
-			newOrder.pushOrder(selectedDelivery);
-			newOrder.cleanCart();
+			newOrder.pushOrder(selectedDelivery); // Stores order info in tables
+			newOrder.cleanCart(); // Purges order from cart table
 			conn.close();
 		} //end try
 		catch(ClassNotFoundException e) 
@@ -156,6 +157,7 @@ public class CheckOutAction extends ActionSupport implements SessionAware {
 		return SUCCESS;
 	}
 	
+	// Validate function here is used exclusively to do two things: Check the validity of a discount code, and apply it to the cart.
 	public void validate() {
 		Connection conn = null; // Establish db connection
 		String url = "jdbc:mysql://localhost:3306/";
@@ -164,17 +166,17 @@ public class CheckOutAction extends ActionSupport implements SessionAware {
 		String userName = "root";
 		String password = "";
 		String userID = (String) userSession.get("currentUserID"); // Get user ID from session
-		if (code.isEmpty()) return; 
+		if (code.isEmpty()) return; // If we don't have a code, ignore validation
 		try {
 			Class.forName(driver).newInstance();
 			conn = DriverManager.getConnection(url+dbName,userName,password);
-			String query = "SELECT * FROM promos WHERE `Code` = '" + code + "'"; 
+			String query = "SELECT * FROM promos WHERE `Code` = '" + code + "'"; // Check for code
 			System.out.println(query);
 			Statement stmt = conn.createStatement();
 			ResultSet codeRS = stmt.executeQuery(query);
-			if (!codeRS.next()){
+			if (!codeRS.next()){ // If code is not valid, add a field error for it.
 				addFieldError("code", "Invalid checkout code.");
-			} else {
+			} else { // Apply if the code exists
 				boolean inCart = Order.applyDiscount(codeRS.getDouble(2), codeRS.getInt(3), codeRS.getInt(4), userID); // Apply Discount
 				if (!inCart){
 					conn.close();
