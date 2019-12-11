@@ -8,11 +8,12 @@
 <title>Confirm Order</title>
 </head>
 <body>
+<h1>Review Your Order</h1>
 	<p><a href="<s:url action='logOut'/>">Logout</a></p>
 	<p><a href="<s:url action='goHome'/>">Return to homepage</a></p>
 	<p><a href="<s:url action='viewCart'/>">Back to Cart</a></p>
 	<p><a href="<s:url action='getGrocery'/>">Back to Shopping</a>
-	<h1>Review Your Order</h1>
+	
 	<s:form action="confirmOrder">
 		<s:select label="Pick the time of the delivery" list="deliveryTimes" name="selectedTime"/>
 		<s:radio label="Delivery Options" list="deliveryOptions" name="selectedDelivery" value="'Two day delivery (FREE)'"/>

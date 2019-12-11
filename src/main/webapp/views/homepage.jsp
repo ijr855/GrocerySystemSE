@@ -8,6 +8,7 @@
 <title>Grocery System Home</title>
 </head>
 <body>
+<h1>User homepage</h1>
 	<p><a href="<s:url action='logOut'/>">Logout</a></p>
 	<p><a href="<s:url action='getGrocery'/>">Grocery List</a>
 	<p><a href="<s:url action='viewOrders'/>">Track your orders</a></p>

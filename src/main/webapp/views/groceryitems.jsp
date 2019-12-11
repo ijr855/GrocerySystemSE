@@ -8,7 +8,7 @@
 <title>Grocery Items</title>
 </head>
 <body>
-
+<h1>List of products</h1>
 <s:set var="hasCart" value="hasCart"/>
 
 <p><a href="<s:url action='logOut'/>">Logout</a></p>
@@ -17,6 +17,7 @@
 	<p><a href="<s:url action='viewCart'/>">View Cart</a></p>
 </s:if>
 <p><a href="<s:url action='viewOrders'/>">Track your orders</a></p>
+
 <s:form action="getGrocery">
 	<s:textfield type="text" name="searchVar" label="Search Items by Name"/> <s:submit value="Search"/>
 </s:form>
